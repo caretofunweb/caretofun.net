@@ -3,7 +3,7 @@ title: "AI Prompt Engineering for Beginners (2026 Update)"
 description: "AI Prompt Engineering for Beginners (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.327Z
 featured: false
-draft: true
+draft: false
 category: "technology"
 tags:
   - imported

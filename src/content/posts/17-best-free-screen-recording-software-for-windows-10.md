@@ -3,7 +3,7 @@ title: "17 Best Free Screen Recording Software for Windows 10 (2026 Update)"
 description: "17 Best Free Screen Recording Software for Windows 10 (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.145Z
 featured: false
-draft: true
+draft: false
 category: "technology"
 tags:
   - imported

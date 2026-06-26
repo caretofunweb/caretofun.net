@@ -3,7 +3,7 @@ title: "Google's AI Image Generation Ecosystem: From Imagen 2 to Google SGE (202
 description: "Google's AI Image Generation Ecosystem: From Imagen 2 to Google SGE (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.346Z
 featured: false
-draft: true
+draft: false
 category: "technology"
 tags:
   - imported
