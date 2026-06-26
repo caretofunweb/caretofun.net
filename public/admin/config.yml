@@ -25,9 +25,12 @@ backend:
   squash_merges: true
 
 # --- Editorial Workflow ---
-# Enables draft → in review → ready → published workflow
-# Creates branches and PRs on GitHub for each content change
-publish_mode: editorial_workflow
+# We use simple publishing mode instead of editorial workflow to provide a single Publish button
+# publish_mode: editorial_workflow
+
+# --- Site URL ---
+# This enables the "View Post" links in the CMS
+site_url: "https://caretofun.net"
 
 # --- Media Configuration ---
 # Images are stored in the repo and served from the public path
@@ -60,6 +63,7 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    preview_path: "blog/{{slug}}"
     sortable_fields: ["date", "title"]
     view_filters:
       - label: "Published"
@@ -163,6 +167,7 @@ collections:
         value_field: "slug"
         search_fields: ["name"]
         display_fields: ["name"]
+        default: "faizan"
 
       # --- SEO Fields ---
       - label: "SEO Settings"
