@@ -1,7 +1,7 @@
 {
-  "enabled": false,
-  "clientId": "ca-pub-123456789",
-  "headerSlotId": "1234567890",
-  "sidebarSlotId": "1234567891",
-  "inArticleSlotId": "1234567892"
+  "enabled": true,
+  "clientId": "ca-pub-8120627524098832",
+  "headerSlotId": "",
+  "sidebarSlotId": "",
+  "inArticleSlotId": ""
 }
