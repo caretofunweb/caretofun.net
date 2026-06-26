@@ -14,5 +14,24 @@
       Configuration is in config.yml (same directory).
     -->
     <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+    <script>
+      CMS.registerEditorComponent({
+        id: "pagebreak",
+        label: "✂️ Page Break",
+        fields: [],
+        pattern: /^<!--nextpage-->$/,
+        fromBlock: function(match) {
+          return {
+            match: match[0]
+          };
+        },
+        toBlock: function(obj) {
+          return '<!--nextpage-->';
+        },
+        toPreview: function(obj) {
+          return '<hr style="border: 2px dashed #ccc; margin: 20px 0;" />';
+        }
+      });
+    </script>
   </body>
 </html>
