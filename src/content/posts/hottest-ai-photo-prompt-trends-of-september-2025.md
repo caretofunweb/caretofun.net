@@ -3,6 +3,7 @@ title: "Hottest AI Photo Prompt Trends of September 2026: Create Viral Images No
 description: "Hottest AI Photo Prompt Trends of September 2026: Create Viral Images Now! - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.311Z
 featured: false
+image: "/images/ai-future.png"
 draft: false
 category: "technology"
 tags:

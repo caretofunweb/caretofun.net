@@ -3,6 +3,7 @@ title: "Fix Error Repairing Disk Errors on Windows 10 (Solved) (2026 Update)"
 description: "Fix Error Repairing Disk Errors on Windows 10 (Solved) (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.148Z
 featured: false
+image: "/images/ai-automation.png"
 draft: false
 category: "technology"
 tags:

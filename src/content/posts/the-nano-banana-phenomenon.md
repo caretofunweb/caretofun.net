@@ -4,6 +4,7 @@ description: "The Nano Banana Phenomenon: How Google's AI is Revolutionizing Ima
 date: 2026-06-26T21:16:51.329Z
 featured: false
 draft: false
+image: "/images/uploads/the-nano-banana-phenomenon.png"
 category: "technology"
 tags:
   - imported

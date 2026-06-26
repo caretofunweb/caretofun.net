@@ -3,6 +3,7 @@ title: "Top 5 Free AI Image Prompt Generators to Spark Your Creativity in 2026"
 description: "Top 5 Free AI Image Prompt Generators to Spark Your Creativity in 2026 - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.299Z
 featured: false
+image: "/images/ai-automation.png"
 draft: false
 category: "technology"
 tags:

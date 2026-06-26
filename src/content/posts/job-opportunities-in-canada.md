@@ -4,6 +4,7 @@ description: "Job Opportunities in Canada (2026 Update) - Updated for 2026 with 
 date: 2026-06-26T21:16:51.133Z
 featured: false
 draft: false
+image: "/images/uploads/job-opportunities-in-canada.png"
 category: "technology"
 tags:
   - imported

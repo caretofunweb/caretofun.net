@@ -3,6 +3,7 @@ title: "Crafting the Perfect AI Image Prompts for Stunning Social Media Visuals 
 description: "Crafting the Perfect AI Image Prompts for Stunning Social Media Visuals (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.325Z
 featured: false
+image: "/images/machine-learning.png"
 draft: false
 category: "technology"
 tags:

@@ -3,6 +3,7 @@ title: "Fix There is a system repair pending which requires reboot to complete i
 description: "Fix There is a system repair pending which requires reboot to complete in Windows 10 (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.147Z
 featured: false
+image: "/images/ai-everyday.png"
 draft: false
 category: "technology"
 tags:

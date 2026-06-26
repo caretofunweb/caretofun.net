@@ -3,6 +3,7 @@ title: "Gemini Prompt for Couple Photo – Create Stunning AI Couple Portraits 2
 description: "Gemini Prompt for Couple Photo – Create Stunning AI Couple Portraits 2026 - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.339Z
 featured: false
+image: "/images/ai-video-generation.png"
 draft: false
 category: "technology"
 tags:

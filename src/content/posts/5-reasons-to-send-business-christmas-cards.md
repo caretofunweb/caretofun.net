@@ -5,6 +5,7 @@ description: 5 Reasons to Send Business Christmas Cards (2026 Update) - Updated
 date: 2026-06-26T21:16:51.320Z
 draft: false
 featured: false
+image: "/images/ai-everyday.png"
 category: technology
 tags:
   - imported

@@ -3,6 +3,7 @@ title: "50+ AI Image Prompt Examples to Create Mind-Blowing Art (Copy & Paste!) 
 description: "50+ AI Image Prompt Examples to Create Mind-Blowing Art (Copy & Paste!) (2026 Update) - Updated for 2026 with the latest information."
 date: 2026-06-26T21:16:51.322Z
 featured: false
+image: "/images/ai-future.png"
 draft: false
 category: "technology"
 tags:
