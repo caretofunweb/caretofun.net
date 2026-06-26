@@ -1,0 +1,12 @@
+---
+title: "World Tallest Man (2026 Update)"
+description: "World Tallest Man (2026 Update) - Updated for 2026 with the latest information."
+date: 2026-06-26T21:16:50.526Z
+featured: false
+draft: true
+category: "technology"
+tags:
+  - imported
+---
+
+The tallest man living is Sultan Kösen (Turkey, b.10 December 1982) who measured 251 cm (8 ft 3 in) in Ankara, Turkey, on 08 February 2011. The part-time farmer was the first man over 8 ft (2.43 m) to be measured by Guinness World Records in over 20 years. Indeed, GWR only knows of 10 confirmed or reliable cases in history of humans reaching [8 ft or more](http://www.guinnessworldrecords.com/records-3000/tallest-man-ever/). Sultan first became the world's tallest living man in 2009, when he measured 246.5 cm (8 ft 1 in) in height. He took the title from Xi Shun (China, b. 1951), who measured 2.361 m (7 ft 8.95 in) in height when measured in 2005.   Sultan is one of five siblings, with three brothers and one sister. The rest of his family, including his mum and dad, are all 'normal' sized. Because of his extreme height he was never able to finish school but works occasionally as a farmer to support his family. He describes one of the advantages of being tall as being able to help out his mum out with jobs such as changing a broken light bulb and hanging curtains. Disadvantages to his height he lists include not being able to find clothes or shoes that fit or finding it extremely hard to fit into a regular size car. Like every young man in their twenties, Sultan enjoys listening to music, playing computer games and watching movies. Sultan also holds the record for **[largest hands](http://www.guinnessworldrecords.com/world-records/2000/largest-hands-living-person)** of a living person, each one measuring 28.5 cm (11.22 in) from the wrist to the tip of the middle finger.   ![](http://i.telegraph.co.uk/multimedia/archive/03105/Guinness_3105211c.jpg) Chandra Bahadur Dangi and Sultan Kosen (Eddie Mulholland/The Telegraph) ![Chandra Bahadur Dangi, from Nepal, the shortest adult to have ever been verified by Guinness World Records, poses for pictures with the world's tallest man Sultan Kosen from Turkey, during a photocall in London on Nov. 13, 2014, to mark Guinness World Records Day.](https://timedotcom.files.wordpress.com/2014/11/worlds-tallest-shortest-men.jpg?quality=65&strip=color&w=1680) \[caption id="" align="aligncenter" width="500"\] tallest man\[/caption\]
