@@ -1,0 +1,10 @@
+{
+  "mainNav": [
+    { "label": "Home", "url": "/" },
+    { "label": "Blog", "url": "/blog" },
+    { "label": "Categories", "url": "/categories" },
+    { "label": "Tags", "url": "/tags" },
+    { "label": "About", "url": "/about" },
+    { "label": "Contact", "url": "/contact" }
+  ]
+}

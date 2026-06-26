@@ -1,0 +1,77 @@
+---
+export interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+
+// Filter for h2 and h3
+const toc = headings.filter(heading => heading.depth === 2 || heading.depth === 3);
+---
+
+<nav class="toc-container glass-card p-6 lg:bg-transparent lg:border-none lg:p-0 lg:shadow-none" aria-label="Table of Contents">
+  <div class="flex items-center gap-2 mb-4">
+    <svg class="w-5 h-5 text-[var(--color-primary-500)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+    <h2 class="text-lg font-bold text-[var(--text-primary)] uppercase tracking-wider text-sm">On this page</h2>
+  </div>
+  
+  <ul class="space-y-2.5 text-sm border-l-2 border-[var(--border-color)] relative">
+    {toc.map((heading) => (
+      <li class={`${heading.depth === 3 ? 'pl-6' : 'pl-4'}`}>
+        <a 
+          href={`#${heading.slug}`} 
+          class="toc-link block py-1 text-[var(--text-secondary)] hover:text-[var(--color-primary-500)] transition-colors relative"
+          data-slug={heading.slug}
+        >
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  /* Indicator for active item */
+  .toc-link.is-active {
+    color: var(--color-primary-500);
+    font-weight: 600;
+  }
+  .toc-link.is-active::before {
+    content: '';
+    position: absolute;
+    left: calc(-1rem - 2px); /* back up over the padding and border */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--color-primary-500);
+    border-radius: 0 4px 4px 0;
+  }
+  li.pl-6 .toc-link.is-active::before {
+    left: calc(-1.5rem - 2px);
+  }
+</style>
+
+<script>
+  // Setup intersection observer for TOC highlighting
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute('id');
+        const link = document.querySelector(`.toc-link[data-slug="${id}"]`);
+        
+        if (entry.isIntersecting) {
+          // Remove active class from all
+          document.querySelectorAll('.toc-link').forEach(el => el.classList.remove('is-active'));
+          // Add to current
+          link?.classList.add('is-active');
+        }
+      });
+    },
+    { rootMargin: '-100px 0px -66% 0px' }
+  );
+
+  // Observe all headings that have an id
+  document.querySelectorAll('article h2[id], article h3[id]').forEach((section) => {
+    observer.observe(section);
+  });
+</script>

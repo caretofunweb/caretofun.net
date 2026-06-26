@@ -1,0 +1,53 @@
+---
+import settings from '@data/settings.json';
+import Button from '@components/ui/Button.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  actionUrl?: string;
+}
+
+const {
+  title = settings.newsletter?.title || 'Subscribe to our Newsletter',
+  description = settings.newsletter?.description || 'Get the latest posts delivered right to your inbox.',
+  actionUrl = settings.newsletter?.actionUrl || '#'
+} = Astro.props;
+---
+
+<div class="relative overflow-hidden rounded-3xl glass-card border border-[var(--border-color)]">
+  <!-- Decorative Background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[var(--color-primary-900)] to-[var(--color-accent-900)] dark:from-[var(--color-primary-950)] dark:to-[var(--color-accent-950)] opacity-10"></div>
+  
+  <div class="absolute -top-24 -right-24 w-48 h-48 bg-[var(--color-primary-500)] rounded-full blur-[80px] opacity-20 animate-float"></div>
+  <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-[var(--color-accent-500)] rounded-full blur-[80px] opacity-20 animate-float" style="animation-delay: 2s;"></div>
+
+  <div class="relative px-6 py-12 sm:px-12 sm:py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-10">
+    <div class="text-center lg:text-left max-w-2xl">
+      <h2 class="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-4">
+        {title}
+      </h2>
+      <p class="text-lg text-[var(--text-secondary)]">
+        {description}
+      </p>
+    </div>
+    
+    <form action={actionUrl} method="POST" class="w-full max-w-md shrink-0 relative z-10" onsubmit="event.preventDefault(); alert('Newsletter subscription is a placeholder in this demo.');">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input 
+          type="email" 
+          name="email" 
+          required 
+          placeholder="Enter your email address" 
+          class="flex-grow px-5 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
+        />
+        <Button type="submit" variant="primary" class="shrink-0 rounded-xl px-8 py-3">
+          Subscribe
+        </Button>
+      </div>
+      <p class="text-xs text-[var(--text-muted)] mt-3 text-center sm:text-left">
+        We respect your privacy. Unsubscribe at any time.
+      </p>
+    </form>
+  </div>
+</div>

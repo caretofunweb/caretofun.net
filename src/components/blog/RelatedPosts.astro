@@ -1,0 +1,22 @@
+---
+import PostCard from './PostCard.astro';
+
+export interface Props {
+  posts: any[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div>
+  <div class="flex items-center gap-4 mb-8">
+    <h3 class="text-2xl font-bold text-[var(--text-primary)]">Related Posts</h3>
+    <div class="h-px bg-gradient-to-r from-[var(--color-primary-500)] to-transparent flex-grow opacity-50"></div>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {posts.map((post) => (
+      <PostCard post={post} />
+    ))}
+  </div>
+</div>

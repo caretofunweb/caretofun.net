@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import PostGrid from '@components/blog/PostGrid.astro';
+import Pagination from '@components/blog/Pagination.astro';
+import Sidebar from '@components/global/Sidebar.astro';
+import settings from '@data/settings.json';
+
+export async function getStaticPaths({ paginate }) {
+  const allPosts = await getCollection('posts');
+  
+  // Filter and sort posts
+  const now = new Date();
+  const validPosts = allPosts
+    .filter(post => !post.data.draft && post.data.date <= now)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return paginate(validPosts, { pageSize: settings.postsPerPage || 9 });
+}
+
+const { page } = Astro.props;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog' }
+];
+---
+
+<PageLayout 
+  title="Blog" 
+  description="Read the latest articles, tutorials, and updates."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+    <div class="lg:col-span-2">
+      <div class="mb-16">
+        <PostGrid posts={page.data} />
+      </div>
+
+      <Pagination 
+        currentPage={page.currentPage} 
+        totalPages={page.lastPage} 
+        baseUrl="/blog" 
+      />
+    </div>
+    
+    <div class="lg:col-span-1">
+      <Sidebar />
+    </div>
+  </div>
+</PageLayout>

@@ -1,0 +1,33 @@
+---
+import adsense from '@data/adsense.json';
+
+export interface Props {
+  slotId?: string;
+  className?: string;
+}
+
+const { slotId, className = "my-8" } = Astro.props;
+const { enabled, clientId } = adsense;
+---
+
+{enabled && clientId && slotId && (
+  <div class={`adsense-container bg-gray-100 border border-gray-200 flex flex-col items-center justify-center min-h-[100px] text-gray-400 text-xs text-center p-4 relative ${className}`}>
+    <span class="absolute top-1 left-2 text-[10px] uppercase font-bold tracking-widest text-gray-300">Advertisement</span>
+    
+    <!-- Real AdSense Tag (will only work on actual domain) -->
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client={clientId}
+        data-ad-slot={slotId}
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script is:inline>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+    <!-- Local Dev Placeholder -->
+    <div class="mt-4 border-2 border-dashed border-gray-300 px-4 py-2 opacity-50">
+      Ad Slot ID: {slotId}
+    </div>
+  </div>
+)}

@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import PostGrid from '@components/blog/PostGrid.astro';
+
+export async function getStaticPaths() {
+  const allTags = await getCollection('tags');
+  const allPosts = await getCollection('posts');
+  
+  const now = new Date();
+  const validPosts = allPosts
+    .filter(post => !post.data.draft && post.data.date <= now)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return allTags.map(tag => {
+    const slug = tag.data?.slug || tag.id;
+    const tagPosts = validPosts.filter(post => post.data.tags?.includes(slug));
+    return {
+      params: { slug: slug },
+      props: { tag, posts: tagPosts },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Tags', url: '/tags' },
+  { name: tag.data.title, url: `/tags/${tag.slug}` }
+];
+---
+
+<PageLayout 
+  title={`#${tag.data.title}`} 
+  description={tag.data.description || `Articles tagged with ${tag.data.title}`}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="mb-8 flex items-center justify-between">
+    <p class="text-[var(--text-secondary)]">{posts.length} {posts.length === 1 ? 'post' : 'posts'} found</p>
+  </div>
+
+  {posts.length > 0 ? (
+    <PostGrid posts={posts} />
+  ) : (
+    <div class="text-center py-20 text-[var(--text-muted)]">
+      <p class="text-xl">No posts found with this tag.</p>
+    </div>
+  )}
+</PageLayout>

@@ -1,0 +1,20 @@
+---
+export interface Props {
+  class?: string;
+  href?: string;
+}
+
+const { class: className = '', href, ...rest } = Astro.props;
+
+const baseClasses = `glass-card block overflow-hidden transition-all duration-300 ${href ? 'glass-card-hover cursor-pointer' : ''} ${className}`;
+---
+
+{href ? (
+  <a href={href} class={baseClasses} {...(rest as any)}>
+    <slot />
+  </a>
+) : (
+  <div class={baseClasses} {...rest}>
+    <slot />
+  </div>
+)}

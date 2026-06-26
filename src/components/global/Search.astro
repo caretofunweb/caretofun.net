@@ -1,0 +1,150 @@
+---
+---
+
+<div id="search-modal" class="fixed inset-0 z-[100] hidden flex-col items-center p-4 sm:p-6 md:p-20 pt-[10vh] animate-fade-in">
+  <!-- Backdrop -->
+  <div id="search-backdrop" class="absolute inset-0 bg-[var(--bg-primary)]/80 backdrop-blur-md"></div>
+  
+  <!-- Modal Content -->
+  <div class="relative w-full max-w-2xl bg-[var(--card-bg)] rounded-2xl shadow-2xl border border-[var(--card-border)] overflow-hidden flex flex-col max-h-[80vh]">
+    
+    <!-- Search Input Area -->
+    <div class="relative flex items-center px-4 border-b border-[var(--border-color)]">
+      <svg class="w-6 h-6 text-[var(--color-primary-500)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input 
+        type="text" 
+        id="search-input" 
+        class="w-full py-5 px-4 bg-transparent border-none focus:outline-none text-lg text-[var(--text-primary)] placeholder-[var(--text-muted)]" 
+        placeholder="Search posts..." 
+        autocomplete="off"
+      />
+      <button id="search-close" class="p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded-md hover:bg-[var(--bg-tertiary)] transition-colors">
+        <kbd class="hidden sm:inline-block font-sans text-xs font-semibold px-2 py-1 rounded bg-[var(--bg-tertiary)] text-[var(--text-secondary)] mr-2">ESC</kbd>
+        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Results Area -->
+    <div id="search-results" class="overflow-y-auto p-4 flex-grow">
+      <div id="search-empty" class="text-center py-12 text-[var(--text-muted)]">
+        Start typing to search...
+      </div>
+      <ul id="search-list" class="space-y-2 hidden"></ul>
+    </div>
+    
+    <!-- Footer -->
+    <div class="px-4 py-3 border-t border-[var(--border-color)] bg-[var(--bg-tertiary)] text-xs text-[var(--text-muted)] flex justify-between items-center">
+      <span>Search powered by Fuse.js</span>
+      <span class="hidden sm:inline-block">Use <kbd class="px-1.5 py-0.5 rounded bg-[var(--bg-primary)] border border-[var(--border-color)]">↑</kbd> <kbd class="px-1.5 py-0.5 rounded bg-[var(--bg-primary)] border border-[var(--border-color)]">↓</kbd> to navigate, <kbd class="px-1.5 py-0.5 rounded bg-[var(--bg-primary)] border border-[var(--border-color)]">Enter</kbd> to select</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  let fuse;
+  let searchData = null;
+  
+  const modal = document.getElementById('search-modal');
+  const backdrop = document.getElementById('search-backdrop');
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const closeBtn = document.getElementById('search-close');
+  const resultsContainer = document.getElementById('search-results');
+  const emptyState = document.getElementById('search-empty');
+  const list = document.getElementById('search-list');
+  const headerSearchBtn = document.getElementById('search-btn');
+
+  // Load search index
+  async function initSearch() {
+    if (searchData) return;
+    try {
+      const res = await fetch('/search-index.json');
+      searchData = await res.json();
+      fuse = new Fuse(searchData, {
+        keys: ['title', 'description', 'tags', 'category'],
+        threshold: 0.3,
+        includeMatches: true
+      });
+    } catch (e) {
+      console.error('Failed to load search index', e);
+    }
+  }
+
+  function openModal() {
+    initSearch();
+    modal?.classList.remove('hidden');
+    modal?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input?.focus(), 100);
+  }
+
+  function closeModal() {
+    modal?.classList.add('hidden');
+    modal?.classList.remove('flex');
+    document.body.style.overflow = '';
+    if (input) input.value = '';
+    renderResults([]);
+  }
+
+  function renderResults(results) {
+    if (!list || !emptyState) return;
+    
+    if (results.length === 0 && input?.value.trim() !== '') {
+      emptyState.classList.remove('hidden');
+      emptyState.textContent = 'No results found.';
+      list.classList.add('hidden');
+      return;
+    }
+
+    if (results.length === 0) {
+      emptyState.classList.remove('hidden');
+      emptyState.textContent = 'Start typing to search...';
+      list.classList.add('hidden');
+      return;
+    }
+
+    emptyState.classList.add('hidden');
+    list.classList.remove('hidden');
+    
+    list.innerHTML = results.map(({ item }) => `
+      <li>
+        <a href="/blog/${item.slug}" class="block p-4 rounded-xl hover:bg-[var(--bg-tertiary)] transition-colors group">
+          <div class="flex justify-between items-start mb-1">
+            <h4 class="font-medium text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)] transition-colors">${item.title}</h4>
+            <span class="text-xs font-medium px-2 py-1 rounded bg-[var(--color-primary-500)]/10 text-[var(--color-primary-500)] ml-4 shrink-0">${item.category}</span>
+          </div>
+          <p class="text-sm text-[var(--text-secondary)] line-clamp-1">${item.description}</p>
+        </a>
+      </li>
+    `).join('');
+  }
+
+  // Event Listeners
+  headerSearchBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+  
+  input?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value;
+    if (!fuse || !query.trim()) {
+      renderResults([]);
+      return;
+    }
+    const results = fuse.search(query);
+    renderResults(results.slice(0, 5)); // Limit to top 5
+  });
+
+  // Keyboard shortcuts
+  window.addEventListener('keydown', (e) => {
+    // Cmd/Ctrl + K to open
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openModal();
+    }
+    // ESC to close
+    if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script>

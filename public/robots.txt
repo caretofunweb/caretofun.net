@@ -1,0 +1,9 @@
+# Sitemap
+User-agent: *
+Allow: /
+
+# Block admin page from search engines
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://your-site.pages.dev/sitemap-index.xml

@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+
+const allCategories = await getCollection('categories');
+const allPosts = await getCollection('posts');
+
+// Calculate post count per category (excluding drafts and future posts)
+const now = new Date();
+const validPosts = allPosts.filter(post => !post.data.draft && post.data.date <= now);
+
+const categoryStats = allCategories.map(category => {
+  const count = validPosts.filter(post => post.data.category === category.slug).length;
+  return { ...category, count };
+}).filter(cat => cat.count > 0).sort((a, b) => b.count - a.count);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Categories', url: '/categories' }
+];
+---
+
+<PageLayout 
+  title="Categories" 
+  description="Browse articles by topic."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {categoryStats.map((category, index) => (
+      <a 
+        href={`/categories/${category.slug}`} 
+        class="glass-card p-6 flex flex-col items-center text-center gap-4 group hover:-translate-y-1 transition-transform duration-300 animate-fade-up"
+        style={`animation-delay: ${index * 0.1}s;`}
+      >
+        <div 
+          class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-colors shadow-inner"
+          style={`background-color: color-mix(in srgb, ${category.data.color} 15%, transparent); color: ${category.data.color}; border: 1px solid color-mix(in srgb, ${category.data.color} 30%, transparent);`}
+        >
+          {category.data.icon ? (
+            <span class="text-3xl">{category.data.icon}</span>
+          ) : (
+            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          )}
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--color-primary-500)] transition-colors">
+            {category.data.title}
+          </h3>
+          {category.data.description && (
+            <p class="text-sm text-[var(--text-secondary)] mb-3 line-clamp-2">
+              {category.data.description}
+            </p>
+          )}
+          <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--bg-tertiary)] text-[var(--text-muted)] group-hover:bg-[var(--color-primary-500)] group-hover:text-white transition-colors">
+            {category.count} {category.count === 1 ? 'post' : 'posts'}
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</PageLayout>

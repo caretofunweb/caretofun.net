@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+
+const allTags = await getCollection('tags');
+const allPosts = await getCollection('posts');
+
+const now = new Date();
+const validPosts = allPosts.filter(post => !post.data.draft && post.data.date <= now);
+
+// Calculate post count per tag
+const tagStats = allTags.map(tag => {
+  const count = validPosts.filter(post => post.data.tags?.includes(tag.slug)).length;
+  return { ...tag, count };
+}).filter(t => t.count > 0).sort((a, b) => b.count - a.count);
+
+// Find max count for relative sizing in cloud
+const maxCount = Math.max(...tagStats.map(t => t.count));
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Tags', url: '/tags' }
+];
+
+// Helper to determine font size based on count
+const getFontSizeClass = (count: number, max: number) => {
+  const ratio = count / max;
+  if (ratio > 0.8) return 'text-2xl sm:text-3xl font-bold';
+  if (ratio > 0.5) return 'text-xl sm:text-2xl font-semibold';
+  if (ratio > 0.3) return 'text-lg sm:text-xl font-medium';
+  return 'text-base font-normal';
+};
+---
+
+<PageLayout 
+  title="Tags" 
+  description="Explore content across all tags."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="glass-card p-8 md:p-12 rounded-3xl">
+    <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 lg:gap-8 max-w-4xl mx-auto">
+      {tagStats.map((tag) => (
+        <a 
+          href={`/tags/${tag.slug}`} 
+          class={`group inline-flex items-center text-[var(--text-secondary)] hover:text-[var(--color-primary-500)] transition-colors hover:scale-110 transform duration-200 ${getFontSizeClass(tag.count, maxCount)}`}
+          title={`${tag.count} posts`}
+        >
+          <span class="text-[var(--text-muted)] mr-1 group-hover:text-[var(--color-primary-500)] opacity-50 font-normal">#</span>
+          {tag.data.title}
+          <span class="ml-2 text-xs font-medium px-2 py-0.5 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-muted)] group-hover:bg-[var(--color-primary-500)] group-hover:text-white transition-colors align-middle">
+            {tag.count}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</PageLayout>

@@ -1,0 +1,20 @@
+{
+  "widgets": [
+    {
+      "type": "popular_posts",
+      "enabled": true
+    },
+    {
+      "type": "adsense",
+      "enabled": true
+    },
+    {
+      "type": "categories",
+      "enabled": true
+    },
+    {
+      "type": "newsletter",
+      "enabled": false
+    }
+  ]
+}

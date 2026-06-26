@@ -1,0 +1,34 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Container from '@components/ui/Container.astro';
+import FeaturedPosts from '@components/home/FeaturedPosts.astro';
+import LatestPosts from '@components/home/LatestPosts.astro';
+import Sidebar from '@components/global/Sidebar.astro';
+import settings from '@data/settings.json';
+---
+
+<BaseLayout>
+  <!-- Main Content Areas -->
+  <Container class="py-6 space-y-12">
+    
+    <!-- Trending Bar Placeholder -->
+    <div class="bg-[var(--color-surface-100)] border border-[var(--border-color)] px-4 py-2 flex items-center gap-4 text-sm font-bold uppercase">
+      <span class="bg-[var(--color-primary-500)] text-white px-3 py-1">Trending News</span>
+      <marquee class="text-black flex-1" scrollamount="5">Welcome to {settings.title} — {settings.description}</marquee>
+    </div>
+
+    <!-- Featured Posts (Mosaic) -->
+    <FeaturedPosts />
+
+    <!-- Split Section: Latest Posts (2/3) + Sidebar (1/3) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <div class="lg:col-span-2 space-y-12">
+        <LatestPosts />
+      </div>
+      <div class="lg:col-span-1 space-y-12">
+        <Sidebar />
+      </div>
+    </div>
+
+  </Container>
+</BaseLayout>

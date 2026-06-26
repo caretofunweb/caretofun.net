@@ -1,0 +1,94 @@
+---
+import Button from '@components/ui/Button.astro';
+
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+const prevUrl = currentPage > 1 ? (currentPage === 2 ? baseUrl : `${baseUrl}/${currentPage - 1}`) : null;
+const nextUrl = currentPage < totalPages ? `${baseUrl}/${currentPage + 1}` : null;
+
+// Generate page numbers with ellipsis
+const getPages = () => {
+  const pages: (number | string)[] = [];
+  
+  if (totalPages <= 5) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    
+    if (currentPage > 3) {
+      pages.push('...');
+    }
+    
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+    
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    
+    if (currentPage < totalPages - 2) {
+      pages.push('...');
+    }
+    
+    pages.push(totalPages);
+  }
+  
+  return pages;
+};
+
+const pages = getPages();
+---
+
+<nav aria-label="Pagination" class="flex justify-center items-center gap-2 mt-16">
+  {prevUrl ? (
+    <Button href={prevUrl} variant="ghost" size="sm" aria-label="Previous Page">
+      <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      Prev
+    </Button>
+  ) : (
+    <Button variant="ghost" size="sm" disabled class="opacity-50 cursor-not-allowed">
+      <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      Prev
+    </Button>
+  )}
+
+  <ul class="flex items-center gap-1 mx-2">
+    {pages.map((page) => (
+      <li>
+        {page === '...' ? (
+          <span class="w-10 h-10 flex items-center justify-center text-[var(--text-muted)]">...</span>
+        ) : (
+          <a
+            href={page === 1 ? baseUrl : `${baseUrl}/${page}`}
+            class={`w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-all ${
+              page === currentPage
+                ? 'bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-500)] text-white shadow-md'
+                : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
+            }`}
+            aria-current={page === currentPage ? 'page' : undefined}
+          >
+            {page}
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  {nextUrl ? (
+    <Button href={nextUrl} variant="ghost" size="sm" aria-label="Next Page">
+      Next
+      <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </Button>
+  ) : (
+    <Button variant="ghost" size="sm" disabled class="opacity-50 cursor-not-allowed">
+      Next
+      <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </Button>
+  )}
+</nav>

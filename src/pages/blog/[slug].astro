@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '@layouts/PostLayout.astro';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts');
+  
+  // Exclude drafts and future posts from generation
+  const now = new Date();
+  const validPosts = allPosts.filter(post => !post.data.draft && post.data.date <= now);
+  
+  return validPosts.map(post => ({
+    params: { slug: post.data?.slug || post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// Render markdown content using Astro's built-in content rendering
+const { Content, headings } = await render(post);
+---
+
+<PostLayout post={post} headings={headings}>
+  <Content />
+</PostLayout>

@@ -1,0 +1,17 @@
+---
+export interface Props {
+  name: string;
+  slug: string;
+  color?: string;
+}
+
+const { name, slug, color = 'var(--color-primary-500)' } = Astro.props;
+---
+
+<a 
+  href={`/categories/${slug}`}
+  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md transition-transform hover:scale-105"
+  style={`background-color: color-mix(in srgb, ${color} 20%, transparent); color: ${color}; border: 1px solid color-mix(in srgb, ${color} 30%, transparent);`}
+>
+  {name}
+</a>

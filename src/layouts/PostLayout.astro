@@ -1,0 +1,168 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Breadcrumbs from '@components/global/Breadcrumbs.astro';
+import TableOfContents from '@components/blog/TableOfContents.astro';
+import TagList from '@components/blog/TagList.astro';
+import SocialShare from '@components/blog/SocialShare.astro';
+import AuthorBox from '@components/blog/AuthorBox.astro';
+import RelatedPosts from '@components/blog/RelatedPosts.astro';
+import Newsletter from '@components/global/Newsletter.astro';
+import ReadingTime from '@components/blog/ReadingTime.astro';
+import CategoryBadge from '@components/blog/CategoryBadge.astro';
+import Sidebar from '@components/global/Sidebar.astro';
+import AdSense from '@components/global/AdSense.astro';
+
+import { getEntry, getCollection } from 'astro:content';
+import { getBlogPostSchema } from '@utils/seo';
+import { getReadingTime } from '@utils/readingTime';
+import { getRelatedPosts } from '@utils/relatedPosts';
+import settings from '@data/settings.json';
+import adsenseData from '@data/adsense.json';
+
+const { post, content } = Astro.props;
+const { title, description, image, date, updatedDate, category, tags, author } = post.data;
+
+// Fetch related data
+const categoryData = await getEntry('categories', category);
+const authorData = await getEntry('authors', author);
+const allPosts = await getCollection('posts');
+const relatedPosts = getRelatedPosts(post, allPosts);
+
+// Calculate reading time
+const readingTime = getReadingTime(post.body || '');
+
+// Extract headings from rendered content for TOC (simplified for this plan, ideally from render())
+// Assuming `content` is just HTML here, we might need a remark plugin for real TOC.
+// Let's assume we pass headings as a prop or extract them.
+const headings = Astro.props.headings || [];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog' },
+  { name: title, url: `/blog/${post.data?.slug || post.id}` },
+];
+
+const postSchema = getBlogPostSchema({
+  title,
+  description,
+  url: `${settings.siteUrl}/blog/${post.data?.slug || post.id}`,
+  image: image || settings.seo.ogImage,
+  datePublished: date.toISOString(),
+  dateModified: updatedDate ? updatedDate.toISOString() : undefined,
+  author: {
+    name: authorData?.data.name || 'Admin',
+  },
+  tags,
+});
+---
+
+<BaseLayout 
+  title={title} 
+  description={description} 
+  image={image} 
+  type="article"
+  canonicalUrl={`${settings.siteUrl}/blog/${post.data?.slug || post.id}`}
+  publishedTime={date.toISOString()}
+  modifiedTime={updatedDate?.toISOString()}
+  author={authorData?.data.name}
+  section={category}
+  tags={tags}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(postSchema)} slot="head" />
+
+  <Container class="pb-16 pt-8">
+    <div class="mb-8">
+      <Breadcrumbs items={breadcrumbs} />
+    </div>
+    
+    <article class="relative animate-fade-up">
+      <!-- Article Header -->
+      <header class="mb-10 text-center max-w-4xl mx-auto">
+        <div class="mb-4">
+          <CategoryBadge name={categoryData?.data.title || category} slug={category} color={categoryData?.data.color} />
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-[var(--text-primary)] leading-tight">
+          {title}
+        </h1>
+        
+        <div class="flex flex-wrap items-center justify-center gap-4 text-[var(--text-muted)] text-sm font-medium">
+          <div class="flex items-center gap-2">
+            {authorData?.data.avatar && (
+              <img src={authorData.data.avatar} alt={authorData.data.name} class="w-8 h-8 rounded-full object-cover border border-[var(--border-color)]" />
+            )}
+            <span>{authorData?.data.name || author}</span>
+          </div>
+          <span>&bull;</span>
+          <time datetime={date.toISOString()}>
+            {date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span>&bull;</span>
+          <ReadingTime time={readingTime} />
+        </div>
+      </header>
+
+      <!-- Featured Image -->
+      {image && (
+        <div class="mb-16 rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[2/1] relative group">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"></div>
+          <img src={image} alt={post.data.imageAlt || title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        </div>
+      )}
+
+      <!-- Article Content + Sidebar -->
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] xl:grid-cols-[1fr_320px] gap-12 items-start">
+        <div class="prose dark:prose-invert max-w-none w-full min-w-0 xl:pr-8 animate-fade-in" style="animation-delay: 0.2s;">
+          
+          <!-- In-Article Ad (Top) -->
+          {adsenseData.enabled && adsenseData.inArticleSlotId && (
+            <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mb-8" />
+          )}
+
+          <slot />
+          
+          <!-- In-Article Ad (Bottom) -->
+          {adsenseData.enabled && adsenseData.inArticleSlotId && (
+            <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mt-8" />
+          )}
+
+          <!-- Tags -->
+          <div class="mt-12 pt-8 border-t border-[var(--border-color)]">
+            <h3 class="text-lg font-semibold mb-4 text-[var(--text-primary)]">Tags</h3>
+            <TagList tags={tags} />
+          </div>
+          
+          <!-- Share -->
+          <div class="mt-8">
+            <SocialShare url={`${settings.siteUrl}/blog/${post.slug || post.id}`} title={title} description={description} />
+          </div>
+          
+          <!-- Author Box -->
+          <div class="mt-12">
+             {authorData && <AuthorBox author={authorData} />}
+          </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <aside class="hidden lg:flex flex-col gap-12 sticky top-28 animate-fade-in" style="animation-delay: 0.3s;">
+          {headings.length > 0 && <TableOfContents headings={headings} />}
+          <Sidebar />
+        </aside>
+      </div>
+    </article>
+
+    <!-- Related Posts -->
+    {relatedPosts.length > 0 && (
+      <div class="mt-24 pt-16 border-t border-[var(--border-color)]">
+        <RelatedPosts posts={relatedPosts} />
+      </div>
+    )}
+
+    <!-- Newsletter -->
+    {settings.newsletter?.enabled && (
+      <div class="mt-24">
+        <Newsletter title={settings.newsletter.title} description={settings.newsletter.description} actionUrl={settings.newsletter.actionUrl} />
+      </div>
+    )}
+  </Container>
+</BaseLayout>

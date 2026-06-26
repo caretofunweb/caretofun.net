@@ -1,0 +1,33 @@
+---
+import { getBreadcrumbSchema } from '@utils/seo';
+
+export interface Props {
+  items: { name: string; url: string }[];
+}
+
+const { items } = Astro.props;
+const schema = getBreadcrumbSchema(items);
+---
+
+<nav aria-label="Breadcrumb" class="w-full">
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <ol class="flex items-center space-x-2 text-sm text-[var(--text-muted)] flex-wrap">
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="flex items-center">
+          {isLast ? (
+            <span class="text-[var(--text-primary)] font-medium truncate max-w-[200px] md:max-w-xs">{item.name}</span>
+          ) : (
+            <>
+              <a href={item.url} class="hover:text-[var(--color-primary-500)] transition-colors truncate max-w-[150px]">
+                {item.name}
+              </a>
+              <span class="mx-2 opacity-50">/</span>
+            </>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

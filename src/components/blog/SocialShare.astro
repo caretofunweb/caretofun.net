@@ -1,0 +1,72 @@
+---
+export interface Props {
+  url: string;
+  title: string;
+  description?: string;
+}
+
+const { url, title, description = '' } = Astro.props;
+
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const encodedDesc = encodeURIComponent(description);
+
+const shareLinks = {
+  twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+  linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedDesc}`
+};
+---
+
+<div class="flex flex-col sm:flex-row items-center gap-4">
+  <span class="text-sm font-semibold text-[var(--text-primary)] uppercase tracking-wider">Share this post</span>
+  
+  <div class="flex flex-wrap gap-2">
+    <!-- Twitter -->
+    <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[#1DA1F2] hover:text-white transition-colors" aria-label="Share on Twitter">
+      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+    </a>
+    
+    <!-- Facebook -->
+    <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[#4267B2] hover:text-white transition-colors" aria-label="Share on Facebook">
+      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+    
+    <!-- LinkedIn -->
+    <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[#0A66C2] hover:text-white transition-colors" aria-label="Share on LinkedIn">
+      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    
+    <!-- Copy Link -->
+    <button id="copy-link-btn" data-url={url} class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--color-primary-500)] hover:text-white transition-colors relative" aria-label="Copy link">
+      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      <span id="copy-tooltip" class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none whitespace-nowrap">Copied!</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  const copyBtn = document.getElementById('copy-link-btn');
+  const tooltip = document.getElementById('copy-tooltip');
+  
+  copyBtn?.addEventListener('click', async () => {
+    const url = copyBtn.getAttribute('data-url');
+    if (!url) return;
+    
+    try {
+      if (navigator.share) {
+        await navigator.share({ url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        tooltip?.classList.remove('opacity-0');
+        tooltip?.classList.add('opacity-100');
+        setTimeout(() => {
+          tooltip?.classList.remove('opacity-100');
+          tooltip?.classList.add('opacity-0');
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Failed to copy or share:', err);
+    }
+  });
+</script>

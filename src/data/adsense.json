@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "clientId": "ca-pub-123456789",
+  "headerSlotId": "1234567890",
+  "sidebarSlotId": "1234567891",
+  "inArticleSlotId": "1234567892"
+}

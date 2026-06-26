@@ -1,0 +1,35 @@
+{
+  "copyright": "© 2026 AstroBlog. All rights reserved.",
+  "columns": [
+    {
+      "heading": "Quick Links",
+      "links": [
+        { "label": "Home", "url": "/" },
+        { "label": "Blog", "url": "/blog" },
+        { "label": "About", "url": "/about" },
+        { "label": "Contact", "url": "/contact" }
+      ]
+    },
+    {
+      "heading": "Categories",
+      "links": [
+        { "label": "Technology", "url": "/categories/technology" },
+        { "label": "Design", "url": "/categories/design" },
+        { "label": "Tutorials", "url": "/categories/tutorials" }
+      ]
+    },
+    {
+      "heading": "Legal",
+      "links": [
+        { "label": "Privacy Policy", "url": "/privacy" },
+        { "label": "Terms of Service", "url": "/terms" },
+        { "label": "RSS Feed", "url": "/rss.xml" }
+      ]
+    }
+  ],
+  "social": [
+    { "platform": "twitter", "url": "https://twitter.com" },
+    { "platform": "github", "url": "https://github.com" },
+    { "platform": "linkedin", "url": "https://linkedin.com" }
+  ]
+}

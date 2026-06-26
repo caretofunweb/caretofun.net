@@ -1,0 +1,555 @@
+# =============================================================================
+# Decap CMS Configuration
+# =============================================================================
+# This file configures the Decap CMS admin interface. It defines:
+# - Backend (GitHub) connection and authentication
+# - Editorial workflow (draft → review → publish)
+# - Media library settings
+# - Content collections (posts, pages, categories, tags, authors)
+# - Site settings (managed as JSON files)
+#
+# SETUP INSTRUCTIONS:
+# 1. Replace "your-user/your-repo" with your actual GitHub repo
+# 2. Replace "https://your-site.pages.dev" with your Cloudflare Pages URL
+# 3. Create a GitHub OAuth App (see README.md for instructions)
+# 4. Set GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in Cloudflare Pages env vars
+# =============================================================================
+
+# --- Backend Configuration ---
+backend:
+  name: github
+  repo: caretofunweb/caretofun.net
+  branch: main
+  base_url: https://your-site.pages.dev  # CHANGE: Your Cloudflare Pages URL
+  auth_endpoint: api/auth
+  squash_merges: true
+
+# --- Editorial Workflow ---
+# Enables draft → in review → ready → published workflow
+# Creates branches and PRs on GitHub for each content change
+publish_mode: editorial_workflow
+
+# --- Media Configuration ---
+# Images are stored in the repo and served from the public path
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# --- Local Development ---
+# Set to true to use the local proxy server (npx decap-server)
+# This bypasses GitHub auth and writes directly to local files
+local_backend: true
+
+# --- Slug Configuration ---
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# =============================================================================
+# COLLECTIONS
+# =============================================================================
+collections:
+
+  # ---------------------------------------------------------------------------
+  # BLOG POSTS
+  # ---------------------------------------------------------------------------
+  - name: "posts"
+    label: "📝 Blog Posts"
+    label_singular: "Post"
+    folder: "src/content/posts"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    sortable_fields: ["date", "title"]
+    view_filters:
+      - label: "Published"
+        field: "draft"
+        pattern: false
+      - label: "Drafts"
+        field: "draft"
+        pattern: true
+      - label: "Featured"
+        field: "featured"
+        pattern: true
+    view_groups:
+      - label: "Category"
+        field: "category"
+      - label: "Year"
+        field: "date"
+        pattern: '\d{4}'
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}} {{if draft}}[DRAFT]{{/if}}"
+    fields:
+      # --- Core Fields ---
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The main title of your blog post"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        hint: "A brief description (used in meta tags and post cards)"
+
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "text"
+        required: false
+        hint: "Optional custom excerpt (defaults to description if empty)"
+
+      # --- Dates & Status ---
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Last Updated"
+        name: "updatedDate"
+        widget: "datetime"
+        required: false
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        hint: "Draft posts are not published on the live site"
+
+      - label: "Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Featured posts appear in the hero section on the homepage"
+
+      # --- Media ---
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+        hint: "Main image displayed at the top of the post and in cards"
+
+      - label: "Image Alt Text"
+        name: "imageAlt"
+        widget: "string"
+        required: false
+        hint: "Descriptive alt text for accessibility"
+
+      # --- Taxonomy ---
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "categories"
+        value_field: "slug"
+        search_fields: ["title"]
+        display_fields: ["title"]
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        min: 1
+        field:
+          label: "Tag"
+          name: "tag"
+          widget: "string"
+
+      - label: "Author"
+        name: "author"
+        widget: "relation"
+        collection: "authors"
+        value_field: "slug"
+        search_fields: ["name"]
+        display_fields: ["name"]
+
+      # --- SEO Fields ---
+      - label: "SEO Settings"
+        name: "seo"
+        widget: "object"
+        required: false
+        collapsed: true
+        fields:
+          - label: "SEO Title"
+            name: "seoTitle"
+            widget: "string"
+            required: false
+            hint: "Override the default title tag (max 60 chars)"
+
+          - label: "Meta Description"
+            name: "metaDescription"
+            widget: "text"
+            required: false
+            hint: "Override the meta description (max 160 chars)"
+
+          - label: "Canonical URL"
+            name: "canonicalUrl"
+            widget: "string"
+            required: false
+            hint: "Set if this content originally appeared elsewhere"
+
+          - label: "Keywords"
+            name: "keywords"
+            widget: "list"
+            required: false
+            field:
+              label: "Keyword"
+              name: "keyword"
+              widget: "string"
+
+          - label: "OG Image"
+            name: "ogImage"
+            widget: "image"
+            required: false
+            hint: "Custom Open Graph image (defaults to featured image)"
+
+      # --- Body ---
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        hint: "Write your post content in Markdown"
+
+  # ---------------------------------------------------------------------------
+  # PAGES
+  # ---------------------------------------------------------------------------
+  - name: "pages"
+    label: "📄 Pages"
+    label_singular: "Page"
+    folder: "src/content/pages"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+
+      - label: "Layout"
+        name: "layout"
+        widget: "select"
+        options:
+          - { label: "Default", value: "default" }
+          - { label: "Full Width", value: "full-width" }
+          - { label: "With Sidebar", value: "sidebar" }
+        default: "default"
+
+      - label: "Show in Navigation"
+        name: "showInNav"
+        widget: "boolean"
+        default: false
+
+      - label: "Nav Order"
+        name: "navOrder"
+        widget: "number"
+        required: false
+        hint: "Order position in navigation (lower = first)"
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  # ---------------------------------------------------------------------------
+  # CATEGORIES
+  # ---------------------------------------------------------------------------
+  - name: "categories"
+    label: "📂 Categories"
+    label_singular: "Category"
+    folder: "src/content/categories"
+    create: true
+    delete: true
+    identifier_field: "title"
+    slug: "{{slug}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "URL-friendly name (e.g., 'web-development')"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+
+      - label: "Color"
+        name: "color"
+        widget: "color"
+        default: "#6366f1"
+        required: false
+        hint: "Brand color for this category"
+
+      - label: "Icon"
+        name: "icon"
+        widget: "string"
+        required: false
+        hint: "Emoji or icon name"
+
+  # ---------------------------------------------------------------------------
+  # TAGS
+  # ---------------------------------------------------------------------------
+  - name: "tags"
+    label: "🏷️ Tags"
+    label_singular: "Tag"
+    folder: "src/content/tags"
+    create: true
+    delete: true
+    identifier_field: "title"
+    slug: "{{slug}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+
+  # ---------------------------------------------------------------------------
+  # AUTHORS
+  # ---------------------------------------------------------------------------
+  - name: "authors"
+    label: "✍️ Authors"
+    label_singular: "Author"
+    folder: "src/content/authors"
+    create: true
+    delete: true
+    identifier_field: "name"
+    slug: "{{slug}}"
+    fields:
+      - label: "Name"
+        name: "name"
+        widget: "string"
+
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+
+      - label: "Avatar"
+        name: "avatar"
+        widget: "image"
+        required: false
+
+      - label: "Bio"
+        name: "bio"
+        widget: "text"
+
+      - label: "Email"
+        name: "email"
+        widget: "string"
+        required: false
+
+      - label: "Social Links"
+        name: "social"
+        widget: "object"
+        required: false
+        collapsed: true
+        fields:
+          - { label: "Twitter", name: "twitter", widget: "string", required: false }
+          - { label: "GitHub", name: "github", widget: "string", required: false }
+          - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+          - { label: "Website", name: "website", widget: "string", required: false }
+
+  # ---------------------------------------------------------------------------
+  # SITE SETTINGS (File Collections)
+  # ---------------------------------------------------------------------------
+  - name: "settings"
+    label: "⚙️ Settings"
+    delete: false
+    files:
+      # --- General Settings ---
+      - file: "src/data/settings.json"
+        label: "General Settings"
+        name: "general"
+        fields:
+          - label: "Site Title"
+            name: "title"
+            widget: "string"
+
+          - label: "Site Description"
+            name: "description"
+            widget: "text"
+
+          - label: "Site URL"
+            name: "siteUrl"
+            widget: "string"
+
+          - label: "Logo"
+            name: "logo"
+            widget: "image"
+            required: false
+
+          - label: "Favicon"
+            name: "favicon"
+            widget: "image"
+            required: false
+
+          - label: "Posts Per Page"
+            name: "postsPerPage"
+            widget: "number"
+            default: 9
+            min: 3
+            max: 24
+
+          - label: "SEO Defaults"
+            name: "seo"
+            widget: "object"
+            fields:
+              - label: "Default OG Image"
+                name: "ogImage"
+                widget: "image"
+                required: false
+
+              - label: "Twitter Handle"
+                name: "twitterHandle"
+                widget: "string"
+                required: false
+
+          - label: "Newsletter"
+            name: "newsletter"
+            widget: "object"
+            fields:
+              - label: "Enabled"
+                name: "enabled"
+                widget: "boolean"
+                default: true
+
+              - label: "Title"
+                name: "title"
+                widget: "string"
+
+              - label: "Description"
+                name: "description"
+                widget: "text"
+
+              - label: "Form Action URL"
+                name: "actionUrl"
+                widget: "string"
+                required: false
+
+      # --- Navigation ---
+      - file: "src/data/navigation.json"
+        label: "Navigation"
+        name: "navigation"
+        fields:
+          - label: "Main Navigation"
+            name: "mainNav"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - label: "Submenu"
+                name: "children"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "URL", name: "url", widget: "string" }
+
+      # --- Footer ---
+      - file: "src/data/footer.json"
+        label: "Footer"
+        name: "footer"
+        fields:
+          - label: "Copyright Text"
+            name: "copyright"
+            widget: "string"
+
+          - label: "Footer Columns"
+            name: "columns"
+            widget: "list"
+            fields:
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "URL", name: "url", widget: "string" }
+
+          - label: "Social Links"
+            name: "social"
+            widget: "list"
+            required: false
+            fields:
+              - label: "Platform"
+                name: "platform"
+                widget: "select"
+                options:
+                  - "twitter"
+                  - "github"
+                  - "linkedin"
+                  - "facebook"
+                  - "instagram"
+                  - "youtube"
+              - label: "URL"
+                name: "url"
+                widget: "string"
+
+      # --- AdSense Settings ---
+      - file: "src/data/adsense.json"
+        label: "AdSense Settings"
+        name: "adsense"
+        fields:
+          - label: "Enable Ads"
+            name: "enabled"
+            widget: "boolean"
+            default: false
+          - label: "Client ID (e.g. ca-pub-123456789)"
+            name: "clientId"
+            widget: "string"
+            required: false
+          - label: "Header Ad Slot ID"
+            name: "headerSlotId"
+            widget: "string"
+            required: false
+          - label: "Sidebar Ad Slot ID"
+            name: "sidebarSlotId"
+            widget: "string"
+            required: false
+          - label: "In-Article Ad Slot ID"
+            name: "inArticleSlotId"
+            widget: "string"
+            required: false
+
+      # --- Sidebar Settings ---
+      - file: "src/data/sidebar.json"
+        label: "Sidebar Settings"
+        name: "sidebar"
+        fields:
+          - label: "Sidebar Widgets"
+            name: "widgets"
+            widget: "list"
+            fields:
+              - label: "Widget Type"
+                name: "type"
+                widget: "select"
+                options:
+                  - "popular_posts"
+                  - "newsletter"
+                  - "categories"
+                  - "adsense"
+              - label: "Enabled"
+                name: "enabled"
+                widget: "boolean"
+                default: true

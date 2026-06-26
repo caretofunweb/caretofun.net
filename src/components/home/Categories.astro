@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+
+const categories = await getCollection('categories');
+const posts = await getCollection('posts');
+
+// Get post counts for each category
+const categoryCounts = categories.map(category => {
+  const count = posts.filter(post => !post.data.draft && post.data.category === (category.data?.slug || category.id)).length;
+  return { ...category, count };
+}).filter(cat => cat.count > 0);
+
+if (categoryCounts.length === 0) {
+  return null;
+}
+---
+
+<section>
+  <div class="border-b-2 border-black mb-6 flex justify-between items-end">
+    <h2 class="bg-black text-white text-sm font-bold uppercase tracking-wider px-4 py-2 inline-block">
+      Categories
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {categoryCounts.map((category) => (
+      <a 
+        href={`/categories/${category.slug}`} 
+        class="bg-[var(--color-surface-100)] border border-[var(--border-color)] p-4 flex items-center justify-between group hover:bg-black hover:text-white transition-colors"
+      >
+        <h3 class="text-sm font-bold uppercase text-black group-hover:text-white transition-colors">
+          {category.data.title}
+        </h3>
+        <span class="bg-black text-white group-hover:bg-[var(--color-primary-500)] text-[10px] font-bold px-2 py-1 transition-colors">
+          {category.count}
+        </span>
+      </a>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,27 @@
+# Scheduled Publishing — GitHub Actions Workflow
+#
+# This workflow triggers a Cloudflare Pages rebuild at regular intervals
+# to publish posts with future dates that have passed.
+#
+# SETUP:
+# 1. Create a Deploy Hook in Cloudflare Pages dashboard
+#    (Settings → Builds & Deployments → Deploy Hooks)
+# 2. Add the hook URL as a GitHub secret named CF_DEPLOY_HOOK_URL
+#    (Settings → Secrets → Actions → New repository secret)
+
+name: Scheduled Publishing
+
+on:
+  schedule:
+    # Runs every 6 hours to check for scheduled posts
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages Build
+        run: |
+          curl -X POST "${{ secrets.CF_DEPLOY_HOOK_URL }}"
+          echo "Triggered Cloudflare Pages rebuild for scheduled publishing"

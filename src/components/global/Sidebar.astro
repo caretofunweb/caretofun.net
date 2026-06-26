@@ -1,0 +1,44 @@
+---
+import sidebarData from '@data/sidebar.json';
+import adsenseData from '@data/adsense.json';
+import PopularPosts from '@components/home/PopularPosts.astro';
+import Categories from '@components/home/Categories.astro';
+import Newsletter from '@components/global/Newsletter.astro';
+import AdSense from '@components/global/AdSense.astro';
+import settings from '@data/settings.json';
+
+const activeWidgets = sidebarData.widgets.filter(widget => widget.enabled);
+---
+
+<aside class="space-y-12">
+  {activeWidgets.map((widget) => {
+    switch (widget.type) {
+      case 'popular_posts':
+        return <PopularPosts />;
+      
+      case 'categories':
+        return <Categories />;
+      
+      case 'newsletter':
+        if (settings.newsletter?.enabled) {
+          return (
+            <Newsletter 
+              title={settings.newsletter.title} 
+              description={settings.newsletter.description} 
+              actionUrl={settings.newsletter.actionUrl} 
+            />
+          );
+        }
+        return null;
+        
+      case 'adsense':
+        if (adsenseData.enabled && adsenseData.sidebarSlotId) {
+          return <AdSense slotId={adsenseData.sidebarSlotId} className="w-full min-h-[250px]" />;
+        }
+        return null;
+
+      default:
+        return null;
+    }
+  })}
+</aside>

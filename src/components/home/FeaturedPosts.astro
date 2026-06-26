@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import FeaturedPost from '@components/blog/FeaturedPost.astro';
+
+// Get featured posts (exactly 3 for mosaic)
+const allPosts = await getCollection('posts');
+const featuredPosts = allPosts
+  .filter(post => !post.data.draft && post.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+if (featuredPosts.length === 0) {
+  return null;
+}
+
+const mainFeatured = featuredPosts[0];
+const subFeatured = featuredPosts.slice(1, 3);
+---
+
+<section class="mb-12">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-1">
+    <div class="lg:col-span-2 h-[500px]">
+      <FeaturedPost post={mainFeatured} large={true} />
+    </div>
+    
+    {subFeatured.length > 0 && (
+      <div class="lg:col-span-1 flex flex-col gap-1 h-[500px]">
+        {subFeatured.map(post => (
+          <div class="flex-1 h-1/2">
+             <FeaturedPost post={post} large={false} />
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

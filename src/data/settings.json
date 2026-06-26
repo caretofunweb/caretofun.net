@@ -1,0 +1,18 @@
+{
+  "title": "CARETOFUN",
+  "description": "Your premier source for AI Vibe Coding, Image Generation, Automation, and the latest in Artificial Intelligence news.",
+  "siteUrl": "https://caretofun.pages.dev",
+  "logo": "/images/uploads/chatgpt-image-jun-27-2026-12_37_58-am.png",
+  "favicon": "/images/uploads/chatgpt-image-jun-27-2026-12_37_58-am.png",
+  "postsPerPage": 9,
+  "seo": {
+    "ogImage": "/images/uploads/chatgpt-image-jun-27-2026-12_37_58-am.png",
+    "twitterHandle": "@caretofun"
+  },
+  "newsletter": {
+    "enabled": true,
+    "title": "Stay Ahead in AI",
+    "description": "Get the latest AI automation tips, tools, and news delivered straight to your inbox.",
+    "actionUrl": "#"
+  }
+}
