@@ -20,7 +20,7 @@ backend:
   name: github
   repo: caretofunweb/caretofun.net
   branch: main
-  base_url: https://your-site.pages.dev  # CHANGE: Your Cloudflare Pages URL
+  base_url: https://caretofun.net  # CHANGE: Your Cloudflare Pages URL
   auth_endpoint: api/auth
   squash_merges: true
 
