@@ -100,6 +100,12 @@ collections:
         required: false
         hint: "Optional custom excerpt (defaults to description if empty)"
 
+      # --- Body ---
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        hint: "Write your post content in Markdown"
+
       # --- Dates & Status ---
       - label: "Publish Date"
         name: "date"
@@ -209,11 +215,7 @@ collections:
             required: false
             hint: "Custom Open Graph image (defaults to featured image)"
 
-      # --- Body ---
-      - label: "Body"
-        name: "body"
-        widget: "markdown"
-        hint: "Write your post content in Markdown"
+
 
   # ---------------------------------------------------------------------------
   # PAGES

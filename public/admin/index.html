@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Content Manager — AstroBlog</title>
+    <style>
+      /* Force the Decap CMS editor pane into a flex grid */
+      div[class*="ControlPaneContainer"] > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      
+      /* Make all field wrappers 48% width to sit side-by-side */
+      div[class*="ControlPaneContainer"] > div > div {
+        flex: 1 1 calc(50% - 15px);
+        min-width: 250px;
+      }
+      
+      /* Force core fields to take 100% width (Full Row) */
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="body"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="title"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="description"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="excerpt"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="image"]) {
+        flex: 1 1 100%;
+      }
+    </style>
   </head>
   <body>
     <!--
