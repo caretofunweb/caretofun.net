@@ -1,18 +1,20 @@
 ---
 title: "Learn AI and Prompting Basics: The Ultimate 2026 Guide"
-description: "Master the fundamentals of Artificial Intelligence and learn how to write highly effective AI prompts to boost productivity. A complete beginner's guide to Prompt Engineering."
-date: 2026-06-27T14:30:00Z
+description: Master the fundamentals of Artificial Intelligence and learn how to
+  write highly effective AI prompts to boost productivity. A complete beginner's
+  guide to Prompt Engineering.
+date: 2026-06-27T19:01:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/ai_prompt_engineering_1782567274850.png"
-category: "technology"
+image: /images/uploads/ai_prompt_engineering_1782567274850.png
+category: technology
 tags:
-  - "AI"
-  - "Prompting"
-  - "ChatGPT"
-  - "Machine Learning"
-  - "Tutorials"
-author: "faizan"
+  - AI
+  - Prompting
+  - ChatGPT
+  - Machine Learning
+  - Tutorials
+author: faizan
 ---
 
 Artificial Intelligence (AI) has rapidly transformed from a futuristic concept into a daily necessity. Whether you are using ChatGPT to write emails, Midjourney to generate stunning graphics, or Claude to analyze massive datasets, AI is fundamentally changing how we work. 
