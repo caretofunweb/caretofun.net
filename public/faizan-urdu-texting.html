@@ -753,6 +753,96 @@
     <p class="tagline">Speak Urdu or English — watch your words appear instantly.</p>
     <p class="by-line">by Faizan</p>
   </header>
+  
+    <!-- Main Card -->
+  <div class="main-card">
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="rec-indicator">
+        <div class="rec-dot" id="recDot"></div>
+        <span class="rec-label" id="recLabel">Ready</span>
+      </div>
+      <div class="confidence-badge" id="confBadge">Confidence: —</div>
+    </div>
+
+    <!-- Controls row -->
+    <div class="controls-row">
+      <select class="styled-select" id="langSelect">
+        <option value="ur-PK">🇵🇰 Urdu (ur-PK)</option>
+        <option value="en-US">🇺🇸 English (en-US)</option>
+      </select>
+      <select class="styled-select" id="fontSizeSelect" onchange="changeFontSize(this.value)">
+        <option value="16">Font 16px</option>
+        <option value="18" selected>Font 18px</option>
+        <option value="20">Font 20px</option>
+        <option value="24">Font 24px</option>
+        <option value="28">Font 28px</option>
+      </select>
+    </div>
+
+    <!-- Textarea -->
+    <div class="textarea-wrap">
+      <textarea id="transcript" placeholder="یہاں آواز کا متن ظاہر ہو گا... | Your speech will appear here..."></textarea>
+      <div class="char-count" id="charCount">Words: 0 | Chars: 0</div>
+    </div>
+
+    <!-- Button Grid -->
+    <div class="btn-grid">
+      <button class="icon-btn btn-perm" id="permBtn" data-tip="Allow Mic" onclick="requestPermission()">
+        <i class="fas fa-microphone-alt"></i>
+      </button>
+      <button class="icon-btn btn-mic" id="micBtn" data-tip="Start / Stop" disabled onclick="toggleRecording()">
+        <i class="fas fa-microphone" id="micIcon"></i>
+      </button>
+      <button class="icon-btn btn-copy" data-tip="Copy Text" onclick="copyText()">
+        <i class="fas fa-copy"></i>
+      </button>
+      <button class="icon-btn btn-download" data-tip="Download File" onclick="openDownloadModal()">
+        <i class="fas fa-download"></i>
+      </button>
+      <button class="icon-btn btn-clear" data-tip="Clear Text" onclick="clearText()">
+        <i class="fas fa-trash"></i>
+      </button>
+      <button class="icon-btn btn-undo" data-tip="Undo" onclick="undoAction()">
+        <i class="fas fa-undo"></i>
+      </button>
+      <button class="icon-btn btn-redo" data-tip="Redo" onclick="redoAction()">
+        <i class="fas fa-redo"></i>
+      </button>
+      <button class="icon-btn btn-bold" data-tip="Bold" onclick="applyBold()">
+        <i class="fas fa-bold"></i>
+      </button>
+      <button class="icon-btn btn-italic" data-tip="Italic" onclick="applyItalic()">
+        <i class="fas fa-italic"></i>
+      </button>
+      <button class="icon-btn btn-theme" data-tip="Toggle Theme" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
+
+    <!-- Status messages -->
+    <div class="msg-row">
+      <div id="statusMsg"></div>
+      <div id="errorMsg"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-chip">Words: <span id="wordCount">0</span></div>
+      <div class="stat-chip">Chars: <span id="charCount2">0</span></div>
+      <div class="stat-chip">Session: <span id="sessionTime">00:00</span></div>
+    </div>
+
+    <!-- History -->
+    <div class="history-section">
+      <button class="history-toggle" id="histToggle" onclick="toggleHistory()">
+        <i class="fas fa-history"></i> Session History (click to expand)
+      </button>
+      <div class="history-list" id="historyList"></div>
+    </div>
+
+  </div><!-- /main-card -->
 
   <!-- Instructions Panel -->
   <div class="instructions-wrap">
@@ -850,95 +940,7 @@
     </div>
   </div>
 
-  <!-- Main Card -->
-  <div class="main-card">
 
-    <!-- Status bar -->
-    <div class="status-bar">
-      <div class="rec-indicator">
-        <div class="rec-dot" id="recDot"></div>
-        <span class="rec-label" id="recLabel">Ready</span>
-      </div>
-      <div class="confidence-badge" id="confBadge">Confidence: —</div>
-    </div>
-
-    <!-- Controls row -->
-    <div class="controls-row">
-      <select class="styled-select" id="langSelect">
-        <option value="ur-PK">🇵🇰 Urdu (ur-PK)</option>
-        <option value="en-US">🇺🇸 English (en-US)</option>
-      </select>
-      <select class="styled-select" id="fontSizeSelect" onchange="changeFontSize(this.value)">
-        <option value="16">Font 16px</option>
-        <option value="18" selected>Font 18px</option>
-        <option value="20">Font 20px</option>
-        <option value="24">Font 24px</option>
-        <option value="28">Font 28px</option>
-      </select>
-    </div>
-
-    <!-- Textarea -->
-    <div class="textarea-wrap">
-      <textarea id="transcript" placeholder="یہاں آواز کا متن ظاہر ہو گا... | Your speech will appear here..."></textarea>
-      <div class="char-count" id="charCount">Words: 0 | Chars: 0</div>
-    </div>
-
-    <!-- Button Grid -->
-    <div class="btn-grid">
-      <button class="icon-btn btn-perm" id="permBtn" data-tip="Allow Mic" onclick="requestPermission()">
-        <i class="fas fa-microphone-alt"></i>
-      </button>
-      <button class="icon-btn btn-mic" id="micBtn" data-tip="Start / Stop" disabled onclick="toggleRecording()">
-        <i class="fas fa-microphone" id="micIcon"></i>
-      </button>
-      <button class="icon-btn btn-copy" data-tip="Copy Text" onclick="copyText()">
-        <i class="fas fa-copy"></i>
-      </button>
-      <button class="icon-btn btn-download" data-tip="Download File" onclick="openDownloadModal()">
-        <i class="fas fa-download"></i>
-      </button>
-      <button class="icon-btn btn-clear" data-tip="Clear Text" onclick="clearText()">
-        <i class="fas fa-trash"></i>
-      </button>
-      <button class="icon-btn btn-undo" data-tip="Undo" onclick="undoAction()">
-        <i class="fas fa-undo"></i>
-      </button>
-      <button class="icon-btn btn-redo" data-tip="Redo" onclick="redoAction()">
-        <i class="fas fa-redo"></i>
-      </button>
-      <button class="icon-btn btn-bold" data-tip="Bold" onclick="applyBold()">
-        <i class="fas fa-bold"></i>
-      </button>
-      <button class="icon-btn btn-italic" data-tip="Italic" onclick="applyItalic()">
-        <i class="fas fa-italic"></i>
-      </button>
-      <button class="icon-btn btn-theme" data-tip="Toggle Theme" onclick="toggleTheme()">
-        <i class="fas fa-moon" id="themeIcon"></i>
-      </button>
-    </div>
-
-    <!-- Status messages -->
-    <div class="msg-row">
-      <div id="statusMsg"></div>
-      <div id="errorMsg"></div>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-row">
-      <div class="stat-chip">Words: <span id="wordCount">0</span></div>
-      <div class="stat-chip">Chars: <span id="charCount2">0</span></div>
-      <div class="stat-chip">Session: <span id="sessionTime">00:00</span></div>
-    </div>
-
-    <!-- History -->
-    <div class="history-section">
-      <button class="history-toggle" id="histToggle" onclick="toggleHistory()">
-        <i class="fas fa-history"></i> Session History (click to expand)
-      </button>
-      <div class="history-list" id="historyList"></div>
-    </div>
-
-  </div><!-- /main-card -->
 </div><!-- /page -->
 
 <!-- Footer -->
@@ -957,7 +959,7 @@
       <i class="fab fa-youtube"></i>
     </a>
   </div>
-  <div class="footer-copy">© 2025 Faizan | All rights reserved — جملہ حقوق محفوظ ہیں</div>
+  <div class="footer-copy">© 2026 Faizan caretofun.net | All rights reserved — جملہ حقوق محفوظ ہیں</div>
 </footer>
 
 
