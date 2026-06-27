@@ -24,6 +24,9 @@ backend:
   auth_endpoint: api/auth
   squash_merges: true
 
+# --- Branding ---
+logo_url: "/images/uploads/caretofun_logo_1782499701395.png"
+
 # --- Editor Configuration ---
 editor:
   preview: false
@@ -103,6 +106,16 @@ collections:
         widget: "text"
         required: false
         hint: "Optional custom excerpt (defaults to description if empty)"
+
+      # --- Advanced SEO Settings (Option C) ---
+      - label: "🚀 Advanced SEO Settings"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        required: false
+        fields:
+          - { label: "Focus Keywords", name: "keywords", widget: "string", required: false, hint: "Comma separated keywords" }
+          - { label: "Canonical URL", name: "canonical", widget: "string", required: false, hint: "Use if this post was published elsewhere first" }
 
       # --- Body ---
       - label: "Body"

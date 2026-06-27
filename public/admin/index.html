@@ -7,10 +7,11 @@
     <title>Content Manager — AstroBlog</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      /* --- PREMIUM CMS OVERRIDE --- */
-      body {
+      /* --- PREMIUM DARK MODE CMS OVERRIDE --- */
+      body, #nc-root {
         font-family: 'Inter', sans-serif !important;
-        background-color: #f8fafc !important;
+        background-color: #07091f !important;
+        color: #e2e8f0 !important;
       }
 
       /* Force 98% Width for Editor (when Preview is disabled) */
@@ -21,28 +22,38 @@
         margin: 0 auto;
       }
 
-      /* Premium Inputs & Shadows */
-      input, textarea, select {
+      /* Premium Dark Inputs & Shadows */
+      input, textarea, select, div[class*="ControlPaneContainer"] div[role="button"] {
         font-family: 'Inter', sans-serif !important;
         border-radius: 8px !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+        border: 1px solid #1e293b !important;
+        background-color: #0f172a !important;
+        color: #f8fafc !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
         transition: all 0.2s ease !important;
       }
       input:focus, textarea:focus, select:focus {
         border-color: #6366f1 !important;
-        box-shadow: 0 0 0 3px rgba(99,102,241,0.15) !important;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.2) !important;
+        outline: none !important;
       }
 
-      /* 2-Column Metadata Grid */
+      /* CMS Labels */
+      label, span[class*="Label"] {
+        color: #94a3b8 !important;
+        font-weight: 600 !important;
+      }
+
+      /* 2-Column Metadata Grid (Dark Mode) */
       div[class*="ControlPaneContainer"] > div {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-        background: #ffffff;
+        background: #0f172a;
         padding: 24px;
         border-radius: 12px;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+        border: 1px solid #1e293b;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       }
       
       div[class*="ControlPaneContainer"] > div > div {
@@ -59,11 +70,24 @@
         flex: 1 1 100%;
       }
 
-      /* Markdown Editor Taller Height */
+      /* Markdown Editor Dark Mode */
       div[data-slate-editor="true"] {
         min-height: 500px !important;
         font-size: 16px !important;
         line-height: 1.7 !important;
+        background-color: #0f172a !important;
+        color: #f8fafc !important;
+      }
+      div[class*="ToolbarContainer"] {
+        background-color: #07091f !important;
+        border-bottom: 1px solid #1e293b !important;
+      }
+      button[class*="ToolbarButton"] {
+        color: #94a3b8 !important;
+      }
+      button[class*="ToolbarButton"]:hover {
+        color: #ffffff !important;
+        background-color: #1e293b !important;
       }
     </style>
   </head>
@@ -81,16 +105,37 @@
         label: "✂️ Page Break",
         fields: [],
         pattern: /^<!--nextpage-->$/,
-        fromBlock: function(match) {
-          return {
-            match: match[0]
-          };
-        },
+        fromBlock: function(match) { return { match: match[0] }; },
+        toBlock: function(obj) { return '<!--nextpage-->'; },
+        toPreview: function(obj) { return '<hr style="border: 2px dashed #ccc; margin: 20px 0;" />'; }
+      });
+
+      CMS.registerEditorComponent({
+        id: "youtube",
+        label: "▶️ YouTube Embed",
+        fields: [{name: "id", label: "YouTube Video ID (e.g. Jla72XjVEbY)", widget: "string"}],
+        pattern: /^<iframe width="100%" height="500" src="https:\/\/www\.youtube\.com\/embed\/(.*)" title="YouTube video player".*<\/iframe>$/,
+        fromBlock: function(match) { return { id: match[1] }; },
         toBlock: function(obj) {
-          return '<!--nextpage-->';
+          return '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + obj.id + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px; margin: 20px 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);"></iframe>';
         },
         toPreview: function(obj) {
-          return '<hr style="border: 2px dashed #ccc; margin: 20px 0;" />';
+          return '<img src="https://img.youtube.com/vi/' + obj.id + '/hqdefault.jpg" style="width:100%; border-radius:12px;" />';
+        }
+      });
+
+      CMS.registerEditorComponent({
+        id: "alert",
+        label: "⚠️ Alert Box",
+        fields: [
+          {name: "type", label: "Alert Type", widget: "select", options: ["NOTE", "TIP", "IMPORTANT", "WARNING", "CAUTION"]},
+          {name: "text", label: "Alert Text", widget: "string"}
+        ],
+        pattern: /^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n> (.*)$/m,
+        fromBlock: function(match) { return { type: match[1], text: match[2] }; },
+        toBlock: function(obj) { return '> [!' + obj.type + ']\n> ' + obj.text; },
+        toPreview: function(obj) {
+          return '<div style="padding: 10px; border-left: 4px solid #6366f1; background: #e0e7ff; color: #1e1e1e; margin: 10px 0;"><strong>' + obj.type + '</strong><br/>' + obj.text + '</div>';
         }
       });
     </script>
