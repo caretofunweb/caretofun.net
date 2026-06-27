@@ -1,13 +1,15 @@
 ---
-title: "Basil By Huma Waqas PDF Download (2026 Update)"
-description: "Basil By Huma Waqas PDF Download (2026 Update) - Updated for 2026 with the latest information."
+title: Basil By Huma Waqas PDF Download (2026 Update)
+description: Basil By Huma Waqas PDF Download (2026 Update) - Updated for 2026
+  with the latest information.
 date: 2026-06-26T21:16:51.294Z
-featured: false
-image: "/images/ai-automation.png"
 draft: false
-category: "technology"
+featured: false
+image: /images/ai-automation.png
+category: tutorials
 tags:
   - imported
+author: faizan
 ---
 
 Basil By Huma Waqas has very different and strong story line that keep grabbed your interest till end. Very well written plot and scenes creation is lovely from the beginning. Here we have complete Episodes updated for the readers as well as PDF download link in the end. Basil By Huma Waqas Complete Novel Read Online And PDF Download. Unique Rude Hero Based Urdu Novel . Read the episodic novel herein as complete files form and download. a Very unique storyline and full of Suspense this novel is the greatest of all.

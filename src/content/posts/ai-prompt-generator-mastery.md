@@ -4,7 +4,7 @@ description: "Mastering the Art of AI Prompts: A Complete Guide to Generative AI
 date: 2026-06-26T21:16:51.332Z
 featured: false
 draft: false
-image: "/images/uploads/ai-prompt-generator-mastery.png"
+image: "/images/uploads/ai_future_1782499827829.png"
 category: "technology"
 tags:
   - imported

@@ -1,13 +1,15 @@
 ---
-title: "What is a Prompt Image Generator? A Beginner's Guide for 2026"
-description: "What is a Prompt Image Generator? A Beginner's Guide for 2026 - Updated for 2026 with the latest information."
+title: What is a Prompt Image Generator? A Beginner's Guide for 2026
+description: What is a Prompt Image Generator? A Beginner's Guide for 2026 -
+  Updated for 2026 with the latest information.
 date: 2026-06-26T21:16:51.313Z
-featured: false
-image: "/images/ai-future.png"
 draft: false
-category: "technology"
+featured: false
+image: /images/uploads/the-nano-banana-phenomenon.png
+category: technology
 tags:
   - imported
+author: faizan
 ---
 
 > **AI Image Prompt:** A simple and clean infographic. On the left, there is a brain icon with the word "PROMPT" underneath. An arrow points from the brain to a sleek, modern box labeled "AI GENERATOR" in the center. From this box, another arrow points to a beautiful, vibrant image of a fantasy landscape on the right. The background is a soft, friendly gradient. --ar 16:9

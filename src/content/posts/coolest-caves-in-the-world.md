@@ -4,7 +4,7 @@ description: "Coolest Caves in the world (2026 Update) - Updated for 2026 with t
 date: 2026-06-26T21:16:50.544Z
 featured: false
 draft: false
-image: "/images/uploads/coolest-caves-in-the-world.png"
+image: "/images/uploads/ai_image_generation_1782499785934.png"
 category: "technology"
 tags:
   - imported
