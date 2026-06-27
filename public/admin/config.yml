@@ -108,7 +108,6 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
-        hint: "Write your post content in Markdown"
 
       # --- Dates & Status ---
       - label: "Publish Date"
