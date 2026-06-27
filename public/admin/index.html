@@ -7,11 +7,11 @@
     <title>Content Manager — AstroBlog</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      /* --- PREMIUM DARK MODE CMS OVERRIDE --- */
+      /* --- PREMIUM GRAY THEME OVERRIDE --- */
       body, #nc-root {
         font-family: 'Inter', sans-serif !important;
-        background-color: #07091f !important;
-        color: #e2e8f0 !important;
+        background-color: #f1f5f9 !important; /* Soft light gray background */
+        color: #1e293b !important; /* Dark, highly visible text */
       }
 
       /* Force 98% Width for Editor (when Preview is disabled) */
@@ -22,38 +22,38 @@
         margin: 0 auto;
       }
 
-      /* Premium Dark Inputs & Shadows */
+      /* Inputs & Shadows */
       input, textarea, select, div[class*="ControlPaneContainer"] div[role="button"] {
         font-family: 'Inter', sans-serif !important;
         border-radius: 8px !important;
-        border: 1px solid #1e293b !important;
-        background-color: #0f172a !important;
-        color: #f8fafc !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        border: 1px solid #cbd5e1 !important; /* Visible gray borders */
+        background-color: #ffffff !important; /* White inputs for maximum contrast */
+        color: #0f172a !important; /* Black text inside inputs */
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
         transition: all 0.2s ease !important;
       }
       input:focus, textarea:focus, select:focus {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 3px rgba(99,102,241,0.2) !important;
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
         outline: none !important;
       }
 
       /* CMS Labels */
       label, span[class*="Label"] {
-        color: #94a3b8 !important;
+        color: #475569 !important; /* Dark gray labels */
         font-weight: 600 !important;
       }
 
-      /* 2-Column Metadata Grid (Dark Mode) */
+      /* 2-Column Metadata Grid */
       div[class*="ControlPaneContainer"] > div {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-        background: #0f172a;
+        background: #f8fafc;
         padding: 24px;
         border-radius: 12px;
-        border: 1px solid #1e293b;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
       }
       
       div[class*="ControlPaneContainer"] > div > div {
@@ -70,24 +70,24 @@
         flex: 1 1 100%;
       }
 
-      /* Markdown Editor Dark Mode */
+      /* Markdown Editor */
       div[data-slate-editor="true"] {
         min-height: 500px !important;
         font-size: 16px !important;
         line-height: 1.7 !important;
-        background-color: #0f172a !important;
-        color: #f8fafc !important;
+        background-color: #ffffff !important;
+        color: #0f172a !important; /* Black writing text */
       }
       div[class*="ToolbarContainer"] {
-        background-color: #07091f !important;
-        border-bottom: 1px solid #1e293b !important;
+        background-color: #f1f5f9 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
       }
       button[class*="ToolbarButton"] {
-        color: #94a3b8 !important;
+        color: #475569 !important;
       }
       button[class*="ToolbarButton"]:hover {
-        color: #ffffff !important;
-        background-color: #1e293b !important;
+        color: #0f172a !important;
+        background-color: #e2e8f0 !important;
       }
     </style>
   </head>
