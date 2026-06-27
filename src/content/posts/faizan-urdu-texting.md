@@ -1,16 +1,18 @@
 ---
-title: "Faizan Urdu Texting Application"
-description: "Speak Urdu or English — watch your words appear instantly. A powerful voice-to-text application."
-date: 2026-06-27T10:00:00Z
+title: Faizan Urdu Texting Application
+description: Speak Urdu or English — watch your words appear instantly. A
+  powerful voice-to-text application.
+date: 2026-06-27T10:00:00.000Z
 draft: false
 featured: true
-image: "/images/uploads/ai_vibe_coding_1782499776119.png"
-category: "technology"
+image: /images/uploads/screenshot-2026-06-27-160908.png
+imageAlt: speech to text
+category: technology
 tags:
-  - "App"
-  - "Urdu"
-  - "Voice-to-Text"
-author: "faizan"
+  - App
+  - Urdu
+  - Voice-to-Text
+author: faizan
 ---
 Welcome to **Faizan Urdu Texting**! This is a complete voice-to-text application running directly inside your browser. Simply click the microphone below to start speaking in Urdu or English, and the text will be automatically typed out for you!
 
