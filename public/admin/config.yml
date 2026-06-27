@@ -24,6 +24,10 @@ backend:
   auth_endpoint: api/auth
   squash_merges: true
 
+# --- Editor Configuration ---
+editor:
+  preview: false
+
 # --- Editorial Workflow ---
 # We use simple publishing mode instead of editorial workflow to provide a single Publish button
 # publish_mode: editorial_workflow
