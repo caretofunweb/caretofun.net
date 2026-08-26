@@ -1,0 +1,140 @@
+---
+/* Astro Admin Page Route for Decap CMS */
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Content Manager — CareToFun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style is:global>
+      /* --- PREMIUM GRAY THEME OVERRIDE --- */
+      body, #nc-root {
+        font-family: 'Inter', sans-serif !important;
+        background-color: #f1f5f9 !important; /* Soft light gray background */
+        color: #1e293b !important; /* Dark, highly visible text */
+      }
+
+      /* Force 98% Width for Editor (when Preview is disabled) */
+      div[class*="AppMainContainer"] > div,
+      div[class*="EditorContainer"] {
+        max-width: 98% !important;
+        width: 98% !important;
+        margin: 0 auto;
+      }
+
+      /* Inputs & Shadows */
+      input, textarea, select, div[class*="ControlPaneContainer"] div[role="button"] {
+        font-family: 'Inter', sans-serif !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important; /* Visible gray borders */
+        background-color: #ffffff !important; /* White inputs for maximum contrast */
+        color: #0f172a !important; /* Black text inside inputs */
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+        transition: all 0.2s ease !important;
+      }
+      input:focus, textarea:focus, select:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+        outline: none !important;
+      }
+
+      /* CMS Labels */
+      label, span[class*="Label"] {
+        color: #475569 !important; /* Dark gray labels */
+        font-weight: 600 !important;
+      }
+
+      /* 2-Column Metadata Grid */
+      div[class*="ControlPaneContainer"] > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        background: #f8fafc;
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      }
+      
+      div[class*="ControlPaneContainer"] > div > div {
+        flex: 1 1 calc(50% - 20px);
+        min-width: 280px;
+      }
+      
+      /* Force core fields to take 100% width (Full Row) */
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="body"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="title"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="description"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="excerpt"]),
+      div[class*="ControlPaneContainer"] > div > div:has(label[for*="image"]) {
+        flex: 1 1 100%;
+      }
+
+      /* Markdown Editor */
+      div[data-slate-editor="true"] {
+        min-height: 500px !important;
+        font-size: 16px !important;
+        line-height: 1.7 !important;
+        background-color: #ffffff !important;
+        color: #0f172a !important; /* Black writing text */
+      }
+      div[class*="ToolbarContainer"] {
+        background-color: #f1f5f9 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+      }
+      button[class*="ToolbarButton"] {
+        color: #475569 !important;
+      }
+      button[class*="ToolbarButton"]:hover {
+        color: #0f172a !important;
+        background-color: #e2e8f0 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+    <script is:inline>
+      CMS.registerEditorComponent({
+        id: "pagebreak",
+        label: "✂️ Page Break",
+        fields: [],
+        pattern: /^<!--nextpage-->$/,
+        fromBlock: function(match) { return { match: match[0] }; },
+        toBlock: function(obj) { return '<!--nextpage-->'; },
+        toPreview: function(obj) { return '<hr style="border: 2px dashed #ccc; margin: 20px 0;" />'; }
+      });
+
+      CMS.registerEditorComponent({
+        id: "youtube",
+        label: "▶️ YouTube Embed",
+        fields: [{name: "id", label: "YouTube Video ID (e.g. Jla72XjVEbY)", widget: "string"}],
+        pattern: /^<iframe width="100%" height="500" src="https:\/\/www\.youtube\.com\/embed\/(.*)" title="YouTube video player".*<\/iframe>$/,
+        fromBlock: function(match) { return { id: match[1] }; },
+        toBlock: function(obj) {
+          return '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + obj.id + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px; margin: 20px 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);"></iframe>';
+        },
+        toPreview: function(obj) {
+          return '<img src="https://img.youtube.com/vi/' + obj.id + '/hqdefault.jpg" style="width:100%; border-radius:12px;" />';
+        }
+      });
+
+      CMS.registerEditorComponent({
+        id: "alert",
+        label: "⚠️ Alert Box",
+        fields: [
+          {name: "type", label: "Alert Type", widget: "select", options: ["NOTE", "TIP", "IMPORTANT", "WARNING", "CAUTION"]},
+          {name: "text", label: "Alert Text", widget: "string"}
+        ],
+        pattern: /^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n> (.*)$/m,
+        fromBlock: function(match) { return { type: match[1], text: match[2] }; },
+        toBlock: function(obj) { return '> [!' + obj.type + ']\n> ' + obj.text; },
+        toPreview: function(obj) {
+          return '<div style="padding: 10px; border-left: 4px solid #6366f1; background: #e0e7ff; color: #1e1e1e; margin: 10px 0;"><strong>' + obj.type + '</strong><br/>' + obj.text + '</div>';
+        }
+      });
+    </script>
+  </body>
+</html>
