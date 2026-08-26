@@ -213,7 +213,7 @@
         }
       });
 
-      // Automatic Table Formatter for Decap CMS Posts List
+      // Dynamic Table Formatter for Decap CMS Posts List (Sort-Compatible)
       function formatCMSTable() {
         const cards = document.querySelectorAll('a[class*="Card"], a[class*="ListCard"]');
         if (!cards.length) return;
@@ -232,28 +232,34 @@
         }
 
         cards.forEach(card => {
-          if (card.dataset.tableFormatted) return;
+          let rawText = card.getAttribute('data-raw-text');
+          if (!rawText) {
+            rawText = (card.innerText || card.textContent).trim();
+          }
 
-          const text = (card.innerText || card.textContent).trim();
-          if (text.includes('|')) {
-            const parts = text.split('|').map(p => p.trim());
+          if (rawText && rawText.includes('|')) {
+            const parts = rawText.split('|').map(p => p.trim());
             const title = parts[0] || 'Untitled';
             const category = parts[1] || 'general';
             const date = parts[2] || '';
 
-            card.innerHTML = `
-              <div class="cms-table-row">
-                <div class="cms-col-title" title="${title}">${title}</div>
-                <div><span class="cms-col-category">📁 ${category}</span></div>
-                <div class="cms-col-date">📅 ${date}</div>
-              </div>
-            `;
-            card.dataset.tableFormatted = 'true';
+            const currentTitle = card.querySelector('.cms-col-title')?.textContent;
+            if (!card.dataset.tableFormatted || currentTitle !== title) {
+              card.setAttribute('data-raw-text', rawText);
+              card.innerHTML = `
+                <div class="cms-table-row">
+                  <div class="cms-col-title" title="${title}">${title}</div>
+                  <div><span class="cms-col-category">📁 ${category}</span></div>
+                  <div class="cms-col-date">📅 ${date}</div>
+                </div>
+              `;
+              card.dataset.tableFormatted = 'true';
+            }
           }
         });
       }
 
-      // Continuously monitor list changes as CMS updates
+      // Continuously monitor list changes as CMS sorts, filters, or paginates
       const tableObserver = new MutationObserver(() => formatCMSTable());
       tableObserver.observe(document.body, { childList: true, subtree: true });
       setInterval(formatCMSTable, 500);

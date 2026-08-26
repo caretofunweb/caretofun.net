@@ -71,7 +71,11 @@ collections:
     delete: true
     slug: "{{slug}}"
     preview_path: "blog/{{slug}}"
-    sortable_fields: ["date", "title"]
+    sortable_fields:
+      - { name: "date", label: "Publish Date", default_order: "desc" }
+      - { name: "title", label: "Title" }
+      - { name: "category", label: "Category" }
+      - { name: "author", label: "Author" }
     view_filters:
       - label: "Published"
         field: "draft"
