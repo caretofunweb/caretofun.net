@@ -72,10 +72,10 @@ collections:
     slug: "{{slug}}"
     preview_path: "blog/{{slug}}"
     sortable_fields:
-      - { name: "date", label: "Publish Date", default_order: "desc" }
-      - { name: "title", label: "Title" }
-      - { name: "category", label: "Category" }
-      - { name: "author", label: "Author" }
+      - { field: "date", label: "Publish Date", default_order: "desc" }
+      - { field: "title", label: "Title" }
+      - { field: "category", label: "Category" }
+      - { field: "author", label: "Author" }
     view_filters:
       - label: "Published"
         field: "draft"
