@@ -4,7 +4,7 @@ description: "Discover the best mind-bending science fiction movies featuring un
 date: 2026-08-26T18:30:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/ai_video_generation_1782499795959.png"
+image: "/images/uploads/scifi-movies-twists.png"
 category: "movies"
 tags:
   - "Movies"
@@ -33,7 +33,7 @@ Christopher Nolan's space epic follows a group of astronauts searching for a new
 
 When mysterious alien spacecraft land around the world, linguistics professor Louise Banks (Amy Adams) is tasked with translating their alien language. What starts as an extraterrestrial communication study reveals a revolutionary twist regarding how language alters human perception of time itself.
 
-![Mind Bending Sci-Fi Movie Cinema](/images/uploads/ai_video_generation_1782499795959.png)
+![Mind Bending Sci-Fi Movie Cinema](/images/uploads/scifi-movies-twists.png)
 
 ---
 

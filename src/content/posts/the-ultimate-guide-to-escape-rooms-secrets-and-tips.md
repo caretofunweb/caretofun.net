@@ -4,7 +4,7 @@ description: "Master escape room challenges with these battle-tested team strate
 date: 2026-08-26T17:00:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/chatgpt-image-jun-26-2026-01_02_27-am.png"
+image: "/images/uploads/escape-rooms-guide.png"
 category: "entertainment"
 tags:
   - "Escape Rooms"
@@ -31,7 +31,7 @@ The single biggest mistake escape room teams make is working in silent isolation
 
 By broadcasting your discoveries, team members who found matching clues across the room can immediately connect the dots.
 
-![Escape Room Puzzle Master](/images/uploads/chatgpt-image-jun-26-2026-01_02_27-am.png)
+![Escape Room Puzzle Master](/images/uploads/escape-rooms-guide.png)
 
 ---
 

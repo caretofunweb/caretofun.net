@@ -4,7 +4,7 @@ description: "Discover the most legendary hidden secrets, developer easter eggs,
 date: 2026-08-26T17:30:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/ai_vibe_coding_1782499776119.png"
+image: "/images/uploads/video-game-easter-eggs.png"
 category: "gaming"
 tags:
   - "Gaming"
@@ -35,7 +35,7 @@ In secret, Robinett programmed a hidden grey pixel inside a maze. If players dra
 
 For years, a popular internet rumor claimed that clicking on specific cows in the original *Diablo* town would open a secret portal. Blizzard turned the urban legend into reality in *Diablo II* by adding the **Secret Cow Level**—where players battle halberd-wielding bipedal cows led by "The Cow King"!
 
-![Gaming Secret Easter Eggs](/images/uploads/ai_vibe_coding_1782499776119.png)
+![Gaming Secret Easter Eggs](/images/uploads/video-game-easter-eggs.png)
 
 ---
 
