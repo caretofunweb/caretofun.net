@@ -4,7 +4,7 @@ description: "Discover the world's weirdest and most unique theme parks, from un
 date: 2026-08-26T19:00:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/unusual-theme-parks.png"
+image: "/images/uploads/unusual-theme-parks.jpg"
 category: "travel"
 tags:
   - "Travel"
@@ -29,7 +29,7 @@ What do you do with a multi-billion dollar nuclear power plant that was complete
 
 At **Wunderland Kalkar** in Germany, the massive cooling tower has been painted with a giant mountain scene and transformed into a vertical swing ride inside, while the outer wall functions as a 130-foot climbing wall. The surrounding reactor buildings house hotels, restaurants, and over 40 family carnival rides.
 
-![Unusual Theme Parks World](/images/uploads/unusual-theme-parks.png)
+![Unusual Theme Parks World](/images/uploads/unusual-theme-parks.jpg)
 
 ---
 

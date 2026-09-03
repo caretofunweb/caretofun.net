@@ -4,7 +4,7 @@ description: "Learn how to plan the perfect home board game night with game sele
 date: 2026-08-26T18:00:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/board-game-night-guide.png"
+image: "/images/uploads/board-game-night.jpg"
 category: "lifestyle"
 tags:
   - "Board Games"
@@ -37,7 +37,7 @@ Not everyone in your friend group wants to spend three hours learning a complex 
 - **Catan:** The beloved trading and resource building game where players negotiate for wheat, brick, and ore.
 - **Wingspan:** A gorgeous engine-building board game centered around collecting unique bird species.
 
-![Board Game Night Setup](/images/uploads/board-game-night-guide.png)
+![Board Game Night Setup](/images/uploads/board-game-night.jpg)
 
 ---
 

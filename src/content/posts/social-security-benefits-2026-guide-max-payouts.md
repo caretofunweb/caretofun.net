@@ -4,7 +4,7 @@ description: "Discover how to maximize your Social Security benefits in 2026. In
 date: 2026-08-29T17:40:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/social-security-benefits-guide.png"
+image: "/images/uploads/social-security-retirement.jpg"
 category: "finance"
 tags:
   - "Social Security"
@@ -29,7 +29,7 @@ Every October, the federal government calculates the official Cost-of-Living Adj
 
 For 2026, Social Security and Supplemental Security Income (SSI) beneficiaries received a **2.8% COLA bump** to help offset rising housing, healthcare, and grocery costs.
 
-![Social Security Benefits 2026 Guide](/images/uploads/social-security-benefits-guide.png)
+![Social Security Benefits 2026 Guide](/images/uploads/social-security-retirement.jpg)
 
 ### Summary of 2026 Key Metrics
 
