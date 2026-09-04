@@ -111,20 +111,60 @@ const postSchema = getBlogPostSchema({
       )}
 
       <!-- Article Content + Sidebar -->
-      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] xl:grid-cols-[1fr_320px] gap-12 items-start">
-        <div class="prose dark:prose-invert max-w-none w-full min-w-0 xl:pr-8 animate-fade-in" style="animation-delay: 0.2s;">
-          
-          <!-- In-Article Ad (Top) -->
-          {adsenseData.enabled && adsenseData.inArticleSlotId && (
-            <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mb-8" />
-          )}
+      {post.data?.sidebar !== false && post.data?.hideSidebar !== true ? (
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] xl:grid-cols-[1fr_320px] gap-12 items-start">
+          <div class="prose dark:prose-invert max-w-none w-full min-w-0 xl:pr-8 animate-fade-in lg:col-start-1" style="animation-delay: 0.2s;">
+            
+            <!-- In-Article Ad (Top) -->
+            {adsenseData.enabled && adsenseData.inArticleSlotId && (
+              <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mb-8" />
+            )}
 
-          <slot />
+            <slot />
+            
+            <!-- In-Article Ad (Bottom) -->
+            {adsenseData.enabled && adsenseData.inArticleSlotId && (
+              <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mt-8" />
+            )}
+
+            <!-- Tags -->
+            <div class="mt-12 pt-8 border-t border-[var(--border-color)]">
+              <h3 class="text-lg font-semibold mb-4 text-[var(--text-primary)]">Tags</h3>
+              <TagList tags={tags} />
+            </div>
+            
+            <!-- Share -->
+            <div class="mt-8">
+              <SocialShare url={`${settings.siteUrl}/blog/${post.slug || post.id}`} title={title} description={description} />
+            </div>
+            
+            <!-- Author Box -->
+            <div class="mt-12">
+               {authorData && <AuthorBox author={authorData} />}
+            </div>
+          </div>
           
-          <!-- In-Article Ad (Bottom) -->
-          {adsenseData.enabled && adsenseData.inArticleSlotId && (
-            <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mt-8" />
-          )}
+          <!-- Sidebar -->
+          <aside class="hidden lg:flex flex-col gap-12 sticky top-28 animate-fade-in lg:col-start-2" style="animation-delay: 0.3s;">
+            {headings.length > 0 && <TableOfContents headings={headings} />}
+            <Sidebar />
+          </aside>
+        </div>
+      ) : (
+        <div class="max-w-5xl mx-auto w-full min-w-0 animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="prose dark:prose-invert max-w-none w-full">
+            <!-- In-Article Ad (Top) -->
+            {adsenseData.enabled && adsenseData.inArticleSlotId && (
+              <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mb-8" />
+            )}
+
+            <slot />
+
+            <!-- In-Article Ad (Bottom) -->
+            {adsenseData.enabled && adsenseData.inArticleSlotId && (
+              <AdSense slotId={adsenseData.inArticleSlotId} className="w-full min-h-[150px] mt-8" />
+            )}
+          </div>
 
           <!-- Tags -->
           <div class="mt-12 pt-8 border-t border-[var(--border-color)]">
@@ -142,13 +182,7 @@ const postSchema = getBlogPostSchema({
              {authorData && <AuthorBox author={authorData} />}
           </div>
         </div>
-        
-        <!-- Sidebar -->
-        <aside class="hidden lg:flex flex-col gap-12 sticky top-28 animate-fade-in" style="animation-delay: 0.3s;">
-          {headings.length > 0 && <TableOfContents headings={headings} />}
-          <Sidebar />
-        </aside>
-      </div>
+      )}
     </article>
 
     <!-- Related Posts -->

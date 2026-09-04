@@ -16,6 +16,7 @@
 # =============================================================================
 
 # --- Backend Configuration ---
+local_backend: true
 backend:
   name: github
   repo: caretofunweb/caretofun.net

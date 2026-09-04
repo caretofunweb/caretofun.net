@@ -351,11 +351,27 @@
 
         loadingText.innerText = 'Rendering Digital Book Pages...';
 
-        // Base dimensions (typical novel aspect ratio ~1:1.4)
-        const viewportWidth = window.innerWidth;
-        const isMobile = viewportWidth < 768;
-        const pageWidth = isMobile ? Math.min(viewportWidth - 30, 420) : 480;
-        const pageHeight = Math.round(pageWidth * 1.4);
+        // Base dimensions dynamically fitted to iframe viewport
+        const viewportEl = document.getElementById('viewport');
+        const availableW = (viewportEl ? viewportEl.clientWidth : window.innerWidth) || window.innerWidth;
+        const availableH = (viewportEl ? viewportEl.clientHeight : (window.innerHeight - 104)) || (window.innerHeight - 104);
+        const isMobile = availableW < 768;
+
+        // In dual-page mode, 2 pages must fit within availableW with navigation buttons
+        let pageWidth;
+        if (isMobile) {
+          pageWidth = Math.min(availableW - 20, 480);
+        } else {
+          // Leave 110px total for left/right arrow buttons and padding
+          pageWidth = Math.min(Math.floor((availableW - 110) / 2), 520);
+        }
+
+        // Ensure pageHeight fits vertically inside viewport
+        let pageHeight = Math.round(pageWidth * 1.4);
+        if (pageHeight > availableH - 30) {
+          pageHeight = Math.max(availableH - 30, 320);
+          pageWidth = Math.round(pageHeight / 1.4);
+        }
 
         for (let pageNum = 1; pageNum <= totalPdfPages; pageNum++) {
           loadingProgress.innerText = `Processing page ${pageNum} of ${totalPdfPages}...`;

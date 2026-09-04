@@ -4,7 +4,7 @@ description: "Experience digital novel reading with realistic page-turning anima
 date: 2026-09-04T19:00:00+05:00
 draft: false
 featured: true
-image: "/images/uploads/board-game-night.jpg"
+image: "/images/uploads/whispering-lantern-novel.jpg"
 category: "lifestyle"
 tags:
   - "Novels"
@@ -12,6 +12,7 @@ tags:
   - "Flipbook"
   - "Romantic Novels"
   - "Interactive"
+sidebar: false
 author: "faizan"
 ---
 
