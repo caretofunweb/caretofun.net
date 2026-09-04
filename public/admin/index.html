@@ -210,6 +210,33 @@
         }
       });
 
+      CMS.registerEditorComponent({
+        id: "pdf_flipbook",
+        label: "📖 PDF Novel Flipbook",
+        fields: [
+          { name: "file", label: "PDF File URL (e.g. /pdfs/sample-novel.pdf)", widget: "string", default: "/pdfs/sample-novel.pdf" },
+          { name: "title", label: "Book / Novel Title", widget: "string", default: "Online Novel" },
+          { name: "height", label: "Viewer Height (px)", widget: "string", default: "700px" }
+        ],
+        pattern: /^<iframe src="\/viewer\/flipbook\.html\?file=([^"&]+)(?:&title=([^"&]*))?" width="100%" height="([^"]*)" frameborder="0" allowfullscreen style=".*"><\/iframe>$/,
+        fromBlock: function(match) {
+          return {
+            file: decodeURIComponent(match[1] || ''),
+            title: decodeURIComponent(match[2] || ''),
+            height: match[3] || '700px'
+          };
+        },
+        toBlock: function(obj) {
+          const file = obj.file || '/pdfs/sample-novel.pdf';
+          const title = obj.title ? `&title=${encodeURIComponent(obj.title)}` : '';
+          const h = obj.height || '700px';
+          return `<iframe src="/viewer/flipbook.html?file=${encodeURIComponent(file)}${title}" width="100%" height="${h}" frameborder="0" allowfullscreen style="border-radius: 12px; margin: 24px 0; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);"></iframe>`;
+        },
+        toPreview: function(obj) {
+          return `<div style="padding: 16px; border: 2px dashed #2563eb; background: #eff6ff; border-radius: 10px; text-align: center; color: #1e3a8a; font-family: sans-serif;">📖 <strong>PDF Flipbook Reader:</strong> ${obj.title || 'Novel'} (${obj.file || ''}) [Height: ${obj.height || '700px'}]</div>`;
+        }
+      });
+
       // Dynamic Table Formatter for Decap CMS Posts List (Sort-Compatible)
       function formatCMSTable() {
         const cards = document.querySelectorAll('a[class*="Card"], a[class*="ListCard"]');
